@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { MessageInterface } from "@/lib/types";
+import Header from "@/components/Header";
 
 
 export default function ChatDisplay() {
@@ -15,6 +16,9 @@ export default function ChatDisplay() {
 
   return (
     <div className="chat-main">
+      {/* Header */}
+      <Header />
+
       {/* Chat Messages */}
       <div className="chat-messages">
         {messages.map((msg, index) => (
