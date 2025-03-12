@@ -1,4 +1,3 @@
-import ChatSideNav from "@/chat/components/ChatSideNav";
 import ChatDisplay from "@/chat/components/ChatDisplay";
 
 export default function ChatPage() {

@@ -1,5 +1,6 @@
-@import "tailwindcss";
-@import "./theme";
+@use "tailwindcss";
+@use "./theme";
+@use "./typography";
 
 body {
   background: var(--background);

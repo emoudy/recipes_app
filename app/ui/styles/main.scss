@@ -1,5 +1,4 @@
-@import "./base/globals";
-@import "./base/typography";
-@import "./base/theme";
-@import "./utils/mixins";
-@import "./components/buttons";
+@use "./base/index" as base;
+@use "./utils/index" as utils;
+@use "./components/index" as components;
+@use "./pages/index" as pages;

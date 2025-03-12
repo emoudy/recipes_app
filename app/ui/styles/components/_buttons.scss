@@ -1,10 +1,15 @@
-.button {
-    @include buttonStyle(var(--accent-light), var(--foreground-light));
-  }
-  
-  @media (prefers-color-scheme: dark) {
-    .button {
-      @include buttonStyle(var(--accent-dark), var(--foreground-dark));
+@tailwind components;
+
+@layer components {
+  .button-primary {
+    @apply bg-[var(--button-light)] text-white px-4 py-2 rounded-md font-semibold shadow-md transition-all duration-300;
+
+    &:hover {
+      filter: brightness(1.1);
     }
   }
-  
+
+  [data-theme='dark'] .button-primary {
+    @apply bg-[var(--button-dark)];
+  }
+}

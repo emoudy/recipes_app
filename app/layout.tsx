@@ -1,6 +1,6 @@
 import '@/ui/styles/main.scss';
 import Footer from '@/components/Footer';
-import { inter } from './ui/styles/fonts';
+import { inter } from './ui/styles/utils/fonts';
 
 export const metadata = {
   title: 'Recipe AI Chat',

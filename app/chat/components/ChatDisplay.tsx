@@ -1,23 +1,27 @@
 "use client";
 import { useState } from "react";
-import {Message} from "@/lib/types";
+import { MessageInterface } from "@/lib/types";
+
 
 export default function ChatDisplay() {
-  const messages: Message[] = [];
+  const messages: MessageInterface[] = [];
   const [input, setInput] = useState("");
 
   const handleSend = () => {
     if (!input.trim()) return;
-	// TODO: something happens here
+    // TODO: Handle sending logic
     setInput("");
   };
 
   return (
-    <div className="flex flex-col h-full p-4 bg-gray-800 text-white">
-      {/* Chat Conversation */}
-      <div className="flex-1 overflow-y-auto space-y-4">
+    <div className="chat-main">
+      {/* Chat Messages */}
+      <div className="chat-messages">
         {messages.map((msg, index) => (
-          <div key={index} className="p-2 bg-gray-700 rounded">
+          <div
+            key={index}
+            className={`message ${msg.userInput ? "user-message" : ""}`}
+          >
             <p className="font-bold">User: {msg.userInput}</p>
             <p>AI: {msg.aiInput}</p>
           </div>
@@ -25,17 +29,14 @@ export default function ChatDisplay() {
       </div>
 
       {/* Chat Input */}
-      <div className="mt-4 flex gap-2">
+      <div className="chat-input">
         <input
           type="text"
-          className="flex-1 p-2 bg-gray-700 text-white rounded"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask something..."
         />
-        <button onClick={handleSend} className="bg-blue-500 px-4 py-2 rounded">
-          Send
-        </button>
+        <button className="button-primary" onClick={handleSend}>Send</button>
       </div>
     </div>
   );

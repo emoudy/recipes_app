@@ -1,29 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Light Mode
 :root {
   --background-light: #F8F1E5; /* Cream */
   --foreground-light: #2E3A23; /* Dark Green */
   --accent-light: #D35400; /* Burnt Orange */
+  --sidebar-light: #EDE0D4; /* Soft Beige */
+  --input-light: #FFF7EB; /* Light Input Background */
+  --border-light: #D3A87C; /* Accent Border */
+  --primary-light: #D35400; /* Burnt Orange */
+  --button-light: #E67E22; /* Pumpkin Orange */
+  --input-border-light: #E67E22; /* Pumpkin Orange */
+}
 
+// Dark Mode
+[data-theme='dark'] {
   --background-dark: #1B1F1D; /* Dark Olive */
   --foreground-dark: #F8F1E5; /* Cream */
   --accent-dark: #F4A261; /* Golden Yellow */
-
-  --font-sans: 'Arial, Helvetica, sans-serif';
+  --sidebar-dark: #252A2E; /* Deep Gray */
+  --input-dark: #2F3438; /* Dark Input Background */
+  --border-dark: #A67C52; /* Accent Border */
+  --primary-dark: #F4A261; /* Golden Yellow */
+  --button-dark: #E67E22; /* Pumpkin Orange */
+  --input-border-dark: #E67E22; /* Pumpkin Orange */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--background-dark);
-    --foreground: var(--foreground-dark);
-    --accent: var(--accent-dark);
+// Mixin for theme support using Tailwind classes
+@layer utilities {
+  .theme-light {
+    @apply bg-[var(--background-light)] text-[var(--foreground-light)];
   }
-}
 
-.theme-light {
-  background: var(--background-light);
-  color: var(--foreground-light);
-}
-
-.theme-dark {
-  background: var(--background-dark);
-  color: var(--foreground-dark);
+  .theme-dark {
+    @apply bg-[var(--background-dark)] text-[var(--foreground-dark)];
+  }
 }

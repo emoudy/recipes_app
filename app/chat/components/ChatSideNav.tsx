@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import clsx from "clsx";
 
 interface ChatSession {
   chatSessionId: number;
@@ -29,9 +30,12 @@ export default function ChatSideNav() {
   }, []);
 
   return (
-    <aside className={`h-full bg-gray-900 text-white p-4 transition-all ${isOpen ? "w-64" : "w-16"}`}>
+    <aside className={clsx(
+      "chat-sidebar",
+      { "collapsed": !isOpen }
+    )}>
       {/* Toggle Button */}
-      <button onClick={() => setIsOpen(!isOpen)} className="mb-4">
+      <button onClick={() => setIsOpen(!isOpen)} className="toggle-btn">
         {isOpen ? "➖" : "➕"}
       </button>
 
@@ -39,9 +43,9 @@ export default function ChatSideNav() {
       {isOpen && (
         <div>
           <h3 className="text-lg font-semibold">Chat Sessions</h3>
-          <ul>
+          <ul className="chat-sessions">
             {chatSessions?.map((session) => (
-              <li key={session.chatSessionId} className="mt-2 p-2 bg-gray-800 rounded">
+              <li key={session.chatSessionId} className="p-2">
                 {session.name}
               </li>
             ))}
