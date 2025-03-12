@@ -1,4 +1,4 @@
-import './ui/styles/globals.css';
+import '@/ui/styles/main.scss';
 import Footer from '@/components/Footer';
 import { inter } from './ui/styles/fonts';
 
@@ -10,7 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className={`${inter.className} antialiased`}>
+      <body className="antialiased theme-light dark:theme-dark">
         <div className="flex flex-col min-h-screen">
           <main className="flex-1">{children}</main>
           <Footer />

@@ -1,0 +1,10 @@
+.button {
+    @include buttonStyle(var(--accent-light), var(--foreground-light));
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .button {
+      @include buttonStyle(var(--accent-dark), var(--foreground-dark));
+    }
+  }
+  
