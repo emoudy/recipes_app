@@ -3,53 +3,59 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" // ✅ Using PostgreSQL (Neon)
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  user_id  Int     @id @default(autoincrement()) // Primary Key
-  name     String  @db.VarChar(100)
-  email    String  @unique @db.VarChar(255)
-
+  id           Int           @id @default(autoincrement())
+  name         String        @db.VarChar(100)
+  email        String        @unique @db.VarChar(255)
+  password     String        @db.VarChar(255)
   chatSessions ChatSession[]
-  recipes      Recipe[]
-}
-
-model ChatSession {
-  chat_session_id Int      @id @default(autoincrement()) // Primary Key
-  chat_session_name String @db.VarChar(255)
-  user_id  Int
-
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-
-  user  User @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
-  messages Message[]
-}
-
-model Message {
-  message_id  Int     @id @default(autoincrement()) // Primary Key
-  chat_session_id Int
-  user_input  String @db.Text
-  ai_output   String @db.Text
-  message_timestamp DateTime @default(now())
-
-  chatSession ChatSession @relation(fields: [chat_session_id], references: [chat_session_id], onDelete: Cascade)
+  userRecipes  UserRecipe[]
 }
 
 model Recipe {
-  recipe_id  Int    @id @default(autoincrement()) // Primary Key
-  user_id    Int
-  name       String @db.VarChar(255)
-  category   String @db.VarChar(100)
-  description String @db.Text
-  servings   Int
-  prep_time  Int    // In minutes
-  cook_time  Int    // In minutes
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id          Int          @id @default(autoincrement())
+  name        String       @db.VarChar(255)
+  category    String       @db.VarChar(100)
+  description String
+  servings    Int
+  prep_time   Int
+  cook_time   Int
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
   last_viewed DateTime
+  userRecipes UserRecipe[]
+}
 
-  user User @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+model ChatSession {
+  id          Int       @id @default(autoincrement())
+  name        String    @db.VarChar(255)
+  user_id     Int
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  user        User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id                Int         @id @default(autoincrement())
+  chat_session_id   Int
+  user_query        String
+  ai_response       String
+  message_timestamp DateTime    @default(now())
+
+  chatSession       ChatSession @relation(fields: [chat_session_id], references: [id], onDelete: Cascade)
+}
+
+model UserRecipe {
+  user_id   Int
+  recipe_id Int
+  saved_at  DateTime @default(now())
+  recipe    Recipe   @relation(fields: [recipe_id], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, recipe_id])
 }
