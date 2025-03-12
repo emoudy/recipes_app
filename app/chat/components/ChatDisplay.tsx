@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import {Message} from "@lib/interfaces";
+import {Message} from "@/lib/types";
 
 export default function ChatDisplay() {
   const messages: Message[] = [];

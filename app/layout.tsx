@@ -1,6 +1,6 @@
-import '@/styles/globals.css';
+import './ui/styles/globals.css';
 import Footer from '@/components/Footer';
-import inter from '@/styles/inter.module.css';
+import { inter } from './ui/styles/fonts';
 
 export const metadata = {
   title: 'Recipe AI Chat',

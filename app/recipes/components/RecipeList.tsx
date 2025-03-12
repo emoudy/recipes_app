@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { categories } from "@/lib/variables";
 import Link from "next/link";
 import useSWR from "swr";
-import { RecipeInterface } from "@lib/interfaces";
+import { RecipeInterface } from "@/lib/types";
 import { useRecipes } from "@/recipes/hooks/useRecipes";
 
 // Fetcher function for SWR

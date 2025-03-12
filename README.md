@@ -39,8 +39,9 @@ UPSTASH_REDIS_URL="your-upstash-redis-url"
 UPSTASH_REDIS_TOKEN="your-upstash-redis-token"
 
 ## Initialize the Database
-pnpm prisma migrate dev --name init_schema
-pnpm prisma generate
+pnpm prisma format  // updates the prisma schema
+pnpm prisma migrate dev --name init_schema  // or update a field with 'pnpm prisma migrate dev --name update_user_password' for example, and then Restart TypeScript Server (Press Cmd + Shift + P (Mac) or Ctrl + Shift + P (Windows/Linux)).
+pnpm prisma generate  
 
 ## Run the Development Server
 pnpm run dev

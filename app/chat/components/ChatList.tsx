@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from "react";
 import { format, isToday, isYesterday, subDays, parseISO } from "date-fns";
-import {chatSessions} from "../../../database/placeholder-data";
+import {chatSessions} from "../../lib/placeholder-data";
 
 export default function ChatList() {
   const [groupedChats, setGroupedChats] = useState<{ today: any[]; yesterday: any[]; previous: any[] }>({

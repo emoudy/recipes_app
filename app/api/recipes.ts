@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@app/api/auth/[...nextauth]";
-import { db } from "@lib/db";
-import prisma from "@lib/db"; // Import Prisma Client
+import { db } from "../../prisma/db";
+import prisma from "../../prisma/db"; // Import Prisma Client
+import { authOptions } from "../../auth.config";
 
 
 export async function GET(req: NextRequest) {
@@ -36,7 +36,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
   
-      const userId = session.user.id; // Ensure this is correctly retrieved
       const recipeData = await req.json();
   
       if (!recipeData.name || !recipeData.category || !recipeData.prepTime) {
@@ -48,8 +47,10 @@ export async function POST(req: NextRequest) {
         data: {
           name: recipeData.name,
           category: recipeData.category,
-          prepTime: recipeData.prepTime,
-          userId,
+          prep_time: recipeData.prepTime,
+          description: recipeData.description || "",
+          servings: recipeData.servings || 1,
+          cook_time: recipeData.cookTime || 0,
         },
       });
   
@@ -71,6 +72,7 @@ export async function DELETE(req: NextRequest) {
     await db.recipe.delete({ where: { id: recipeId } });
     return NextResponse.json({ message: "Recipe deleted successfully" });
   } catch (error) {
-    return NextResponse.json({ error: error.message || "Failed to delete recipe" }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Failed to delete recipe";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
