@@ -1,16 +1,59 @@
 import { NextResponse } from "next/server";
-import prisma from "../../../prisma/db";
+import { db } from "../../../prisma/db";
 
 export async function POST(req: Request) {
   try {
-    const { name, category, prepTime, userId } = await req.json();
+    const { userId, name, category, prepTime, cookTime, description, servings } = await req.json();
 
-    const newRecipe = await prisma.recipe.create({
-      data: { name, category, prepTime, userId },
+    if (!userId) {
+      return NextResponse.json({ error: "User ID is required" }, { status: 400 });
+    }
+
+    // ✅ Create the recipe first
+    const newRecipe = await db.recipe.create({
+      data: {
+        name,
+        category,
+        description,
+        servings,
+        prep_time: prepTime,
+        cook_time: cookTime,
+      },
+    });
+
+    // ✅ Then create the user-recipe relationship using the newRecipe.id
+    const userRecipe = await db.userRecipe.create({
+      data: {
+        user_id: userId,
+        recipe_id: newRecipe.id,
+      },
     });
 
     return NextResponse.json(newRecipe, { status: 201 });
+
   } catch (error) {
+    console.error("Error creating recipe:", error);
     return NextResponse.json({ error: "Error creating recipe" }, { status: 500 });
+  }
+}
+
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const category = searchParams.get("category") || "";
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const pageSize = 10; // Set default page size
+
+    // Fetch recipes with pagination
+    const recipes = await db.recipe.findMany({
+      where: category ? { category } : {},
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      orderBy: { created_at: "desc" },
+    });
+
+    return NextResponse.json(recipes);
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to fetch recipes" }, { status: 500 });
   }
 }
