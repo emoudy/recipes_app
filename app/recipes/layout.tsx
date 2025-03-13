@@ -7,9 +7,6 @@ export default function RecipesLayout({ children }: { children: ReactNode }) {
     <div className="flex flex-col h-screen">
     	{/* Header */}
 			<Header />
-			
-      {/* Recipe Menu (Filters & Actions) */}
-      <RecipeMenu />
 
       {/* Recipes Content */}
       <main className="flex-1 overflow-auto p-4">{children}</main>
