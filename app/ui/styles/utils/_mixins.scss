@@ -1,18 +1,18 @@
-@mixin flexCenter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+// @mixin flexCenter {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//   }
   
-  @mixin buttonStyle($bgColor, $textColor) {
-    background: $bgColor;
-    color: $textColor;
-    padding: 12px 20px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+//   @mixin buttonStyle($bgColor, $textColor) {
+//     background: $bgColor;
+//     color: $textColor;
+//     padding: 12px 20px;
+//     border-radius: 8px;
+//     transition: all 0.3s ease;
   
-    &:hover {
-      filter: brightness(1.1);
-    }
-  }
+//     &:hover {
+//       filter: brightness(1.1);
+//     }
+//   }
   

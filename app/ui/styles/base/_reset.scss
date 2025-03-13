@@ -1,0 +1,43 @@
+@layer base {
+  /* 🌎 Universal Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+}
+
+//   /* ✂ Remove default styles from common elements */
+//   body, h1, h2, h3, h4, h5, h6, p, ol, ul, figure, blockquote, fieldset {
+//     margin: 0;
+//     padding: 0;
+//     list-style: none;
+//   }
+
+// 	/* 🛠 Remove browser defaults for div */
+// 	div {
+// 		all: unset; /* Removes browser default styles */
+// 		display: block; /* Default behavior for divs */
+// 		width: 100%; /* Ensures divs expand properly */
+// 	}
+
+//   /* 🛠 Remove browser defaults for header */
+//   header {
+//     all: unset; /* Removes browser default styles */
+//     display: flex; /* Ensures flexbox is applied */
+//     justify-content: space-between;
+//     align-items: center;
+//     width: 100%;
+//   }
+
+//   /* 🛠 Remove default styling from interactive elements */
+//   button, input, textarea, select {
+//     all: unset;
+//   }
+
+//   /* 🚀 Ensure images & media are responsive */
+//   img, video {
+//     max-width: 100%;
+//     height: auto;
+//   }
+// }

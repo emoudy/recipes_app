@@ -6,7 +6,13 @@ module.exports = {
       "./components/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
-      extend: {},
+      extend: {
+        colors: {
+          "button-dark": "var(--button-dark)",
+          "button-dark-hover": "var(--button-dark-hover)",
+          "button-light": "var(--primary-btn-bg-light)",
+        },
+      },
     },
     plugins: [],
   };

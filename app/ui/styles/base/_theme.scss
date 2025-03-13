@@ -13,20 +13,23 @@
   --primary-light: #D35400; /* Burnt Orange */
   --button-light: #E67E22; /* Pumpkin Orange */
   --input-border-light: #E67E22; /* Pumpkin Orange */
+
+  --primary-btn-bg-light: #E67E22; /* Pumpkin Orange */
 }
 
+// TODO: Add Dark Mode
 // Dark Mode
-[data-theme='dark'] {
-  --background-dark: #1B1F1D; /* Dark Olive */
-  --foreground-dark: #F8F1E5; /* Cream */
-  --accent-dark: #F4A261; /* Golden Yellow */
-  --sidebar-dark: #252A2E; /* Deep Gray */
-  --input-dark: #2F3438; /* Dark Input Background */
-  --border-dark: #A67C52; /* Accent Border */
-  --primary-dark: #F4A261; /* Golden Yellow */
-  --button-dark: #E67E22; /* Pumpkin Orange */
-  --input-border-dark: #E67E22; /* Pumpkin Orange */
-}
+// [data-theme='dark'] {
+//   --background-dark: #1B1F1D; /* Dark Olive */
+//   --foreground-dark: #F8F1E5; /* Cream */
+//   --accent-dark: #F4A261; /* Golden Yellow */
+//   --sidebar-dark: #252A2E; /* Deep Gray */
+//   --input-dark: #2F3438; /* Dark Input Background */
+//   --border-dark: #A67C52; /* Accent Border */
+//   --primary-dark: #F4A261; /* Golden Yellow */
+//   --button-dark: #E67E22; /* Pumpkin Orange */
+//   --input-border-dark: #E67E22; /* Pumpkin Orange */
+// }
 
 // Mixin for theme support using Tailwind classes
 @layer utilities {
