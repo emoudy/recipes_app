@@ -4,9 +4,7 @@ import {
   UserGroupIcon,
   DocumentDuplicateIcon,
 } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import clsx from "clsx";
+import LinkStyled from './components/elements/LinkStyled';
 
 const links = [
   {
@@ -22,7 +20,6 @@ const links = [
 ];
 
 export default function MainPage() {
-  const pathname = usePathname();
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -30,22 +27,14 @@ export default function MainPage() {
       <p className="text-lg mb-4">What would you like to do?</p>
       <div className="flex flex-col gap-4">
         {links.map((link) => {
-          const LinkIcon = link.icon;
           return (
-            <Link
+            <LinkStyled
               key={link.name}
+              type="primary"
               href={link.href}
-              className={clsx(
-                'flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-lg font-semibold transition-all duration-300 shadow-md',
-                'hover:scale-105',
-                pathname === link.href
-                  ? 'bg-[var(--accent)] text-[var(--background)]'
-                  : 'bg-[var(--foreground)] text-[var(--background)]'
-              )}
-            >
-              <LinkIcon className="w-6" />
-              <span>{link.name}</span>
-            </Link>
+              title={link.name}
+              icon={<link.icon className="w-6 h-6" />}
+            />
           );
         })}
       </div>
