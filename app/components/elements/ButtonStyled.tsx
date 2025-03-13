@@ -7,6 +7,7 @@ interface ButtonStyledProps {
   role?: string;
   disabled?: boolean;
 	icon?: string;
+  className?: string;
 }
 
 export default function ButtonStyled({
@@ -16,6 +17,7 @@ export default function ButtonStyled({
   role = "button",
   disabled = false,
 	icon="",
+  className="",
 }: ButtonStyledProps) {
   
   // Define button base styles
@@ -25,32 +27,32 @@ export default function ButtonStyled({
   // Define dynamic button styles using Tailwind CSS variables
   const buttonStyles = {
     primary: {
-      className: clsx(baseStyles, "bg-[var(--primary-btn-bg-light)]"),
+      className: clsx(baseStyles, "bg-[var(--primary-btn-bg-light)]", className),
       icon: icon, 
       title: title
     },
     secondary: {
-      className:clsx(baseStyles),
+      className:clsx(baseStyles, className),
       icon: icon, 
       title: title 
     },
     delete: {
-      className:clsx(baseStyles),
+      className:clsx(baseStyles, className),
       icon: "🗑", 
       title: "Delete"
     },
     save: {
-      className:clsx(baseStyles),
+      className:clsx(baseStyles, className),
       icon: "✅", 
       title: "Save"
     },
     cancel: {
-      className:clsx(baseStyles),
+      className:clsx(baseStyles, className),
       icon: "❌", 
       title: "Cancel"
     },    
     edit: {
-      className:clsx(baseStyles),
+      className:clsx(baseStyles, className),
       icon:  "✏", 
       title: "Edit"
     },
