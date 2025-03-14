@@ -1,38 +1,37 @@
 "use client";
 import { useState, useEffect } from "react";
-import clsx from "clsx";
 
 interface ChatSession {
   chatSessionId: number;
   name: string;
 }
 
-export default function ChatSideNav() {
-  const [isOpen, setIsOpen] = useState(true);
+export default function ChatSideNav({ userId }: { userId: number | null }) {
   const [chatSessions, setChatSessions] = useState<ChatSession[]>([]);
 
   useEffect(() => {
-    const savedState = localStorage.getItem("chatMenuOpen");
-    if (savedState !== null) setIsOpen(JSON.parse(savedState));
-  }, []);
+    if (!userId) return; // ✅ Don't fetch if no user is logged in
 
-  useEffect(() => {
     async function fetchSessions() {
-      const res = await fetch("/api/chatsessions");
-      const data = await res.json();
-      setChatSessions(data);
+      try {
+        const res = await fetch(`/api/chatSessions?userId=${userId}`);
+        if (!res.ok) throw new Error("Failed to fetch chat sessions");
+        const data = await res.json();
+        setChatSessions(data);
+      } catch (error) {
+        console.error("Error fetching chat sessions:", error);
+      }
     }
+
     fetchSessions();
-  }, []);
+  }, [userId]);
+
+  console.log("HELLO", chatSessions);
 
   return (
-    <aside className={clsx(
-      "chat-sidebar w-[260px] bg-[var(--sidebar-light)] text-[var(--foreground-light)] p-4 transition-width duration-300 ease-in-out dark:bg-[var(--sidebar-dark)] dark:text-[var(--foreground-dark)]",
-      { "collapsed w-[60px]": !isOpen }
-    )}>
+    <aside className="chat-sidebar w-[260px] bg-[var(--sidebar-light)] text-[var(--foreground-light)] p-4 transition-width duration-300 ease-in-out dark:bg-[var(--sidebar-dark)] dark:text-[var(--foreground-dark)]">
 
       {/* Chat Sessions */}
-      {isOpen && (
         <div className="h-screen bg-red">
           <h3 className="text-lg font-semibold">Chat Sessions</h3>
           <ul className="chat-sessions list-none p-0">
@@ -43,7 +42,6 @@ export default function ChatSideNav() {
             ))}
           </ul>
         </div>
-      )}
     </aside>
   );
 }
