@@ -67,8 +67,14 @@ pnpm prisma generate                            Regenerates the Prisma Client
 pnpm prisma migrate dev --name update_schema    Creates a new migration with a new schema
 pnpm prisma migrate deploy
 pnpm prisma studio                              Displays the database to make sure the changes have been applied
+pnpm prisma db pull                             syncs the schema from your database into Prisma
+pnpm prisma db seed                             loads the mock data, run pnpm prisma db seed
 
 If error presist, try restarting the TypeScript server:
 -- Press Cmd + Shift + P (Mac) or Ctrl + Shift + P (Windows/Linux)
 -- Search for: "TypeScript: Restart TS server"
 -- Click on it.
+
+What About Migrations?
+If you are working alone, you don’t need to push prisma/migrations/. You can just run pnpm prisma migrate dev when needed.
+If your team is working together, it's best to push prisma/migrations/ so everyone applies the same schema.

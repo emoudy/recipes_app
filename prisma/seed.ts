@@ -1,178 +1,83 @@
-import bcrypt from "bcrypt";
-import postgres from "postgres";
-import { messages, chatSessions, recipes, userRecipes, users } from "@/lib/placeholder-data";
+import { PrismaClient } from '@prisma/client';
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
+const prisma = new PrismaClient();
 
-//run the script:
-// pnpm tsx prisma/seed.ts or pnpm prisma db seed
-
-// Make sure your .env file has the correct PostgreSQL connection URL:
-// POSTGRES_URL="postgresql://your_user:your_password@localhost:5432/mydb"
-
-// Run the script:
-// pnpm tsx prisma/seed.ts or pnpm prisma db seed
-
-/** Test the script */
-async function testConnection() {
-  const result = await sql`SELECT 1`;
-  console.log(result);
-}
-
-testConnection();
-
-
-/** 🔹 Seed Users */
-async function seedUsers() {
-  await sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
-  await sql`
-    CREATE TABLE IF NOT EXISTS users (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      email TEXT NOT NULL UNIQUE,
-      password TEXT NOT NULL
-    );
-  `;
-
-  const insertedUsers = await Promise.all(
-    users.map(async (user) => {
-      const hashedPassword = await bcrypt.hash("password123", 10); // Default password
-      return sql`
-        INSERT INTO users (id, name, email, password)
-        VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
-        ON CONFLICT (id) DO NOTHING;
-      `;
-    })
-  );
-
-  console.log("✅ Users seeded");
-  return insertedUsers;
-}
-
-/** 🔹 Seed Chat Sessions */
-async function seedChatSessions() {
-  await sql`
-    CREATE TABLE IF NOT EXISTS chat_sessions (
-      id SERIAL PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      created_at TIMESTAMP DEFAULT NOW(),
-      updated_at TIMESTAMP DEFAULT NOW()
-    );
-  `;
-
-  const insertedChatSessions = await Promise.all(
-    chatSessions.map(async (session) => {
-      return sql`
-        INSERT INTO chat_sessions (id, name, user_id, created_at, updated_at)
-        VALUES (${session.id}, ${session.name}, ${session.userId}, ${session.createdAt}, ${session.updatedAt})
-        ON CONFLICT (id) DO NOTHING;
-      `;
-    })
-  );
-
-  console.log("✅ Chat Sessions seeded");
-  return insertedChatSessions;
-}
-
-/** 🔹 Seed Messages */
-async function seedMessages() {
-  await sql`
-    CREATE TABLE IF NOT EXISTS messages (
-      id SERIAL PRIMARY KEY,
-      chat_session_id INT NOT NULL REFERENCES chat_sessions(id) ON DELETE CASCADE,
-      user_input TEXT NOT NULL,
-      ai_output TEXT NOT NULL,
-      timestamp TIMESTAMP DEFAULT NOW()
-    );
-  `;
-
-  const insertedMessages = await Promise.all(
-    messages.map(async (message) => {
-      return sql`
-        INSERT INTO messages (id, chat_session_id, user_input, ai_output, timestamp)
-        VALUES (${message.id}, ${message.chatSessionId}, ${message.userInput}, ${message.aiOutput}, ${message.timestamp})
-        ON CONFLICT (id) DO NOTHING;
-      `;
-    })
-  );
-
-  console.log("✅ Messages seeded");
-  return insertedMessages;
-}
-
-/** 🔹 Seed Recipes */
-async function seedRecipes() {
-  await sql`
-    CREATE TABLE IF NOT EXISTS recipes (
-      id SERIAL PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      category VARCHAR(100) NOT NULL,
-      description TEXT NOT NULL,
-      servings INT NOT NULL,
-      prep_time INT NOT NULL,
-      cook_time INT NOT NULL,
-      created_at DATE NOT NULL DEFAULT NOW(),
-      updated_at DATE NOT NULL DEFAULT NOW(),
-      last_viewed DATE NOT NULL DEFAULT NOW()
-    );
-  `;
-
-  const insertedRecipes = await Promise.all(
-    recipes.map(async (recipe) => {
-      return sql`
-        INSERT INTO recipes (id, name, category, description, servings, prep_time, cook_time, created_at, updated_at, last_viewed)
-        VALUES (${recipe.id}, ${recipe.name}, ${recipe.category}, ${recipe.description}, ${recipe.servings}, ${recipe.prepTime}, ${recipe.cookTime}, ${recipe.createdAt}, ${recipe.updatedAt}, ${recipe.lastViewed})
-        ON CONFLICT (id) DO NOTHING;
-      `;
-    })
-  );
-
-  console.log("✅ Recipes seeded");
-  return insertedRecipes;
-}
-
-/** 🔹 Seed User Recipes (Mapping Users to Saved Recipes) */
-async function seedUserRecipes() {
-  await sql`
-    CREATE TABLE IF NOT EXISTS user_recipes (
-      user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-      recipe_id INT NOT NULL REFERENCES recipes(id) ON DELETE CASCADE,
-      saved_at TIMESTAMP DEFAULT NOW(),
-      PRIMARY KEY (user_id, recipe_id)
-    );
-  `;
-
-  const insertedUserRecipes = await Promise.all(
-    userRecipes.map(async (entry) => {
-      return sql`
-        INSERT INTO user_recipes (user_id, recipe_id, saved_at)
-        VALUES (${entry.userId}, ${entry.recipeId}, ${entry.savedAt})
-        ON CONFLICT (user_id, recipe_id) DO NOTHING;
-      `;
-    })
-  );
-
-  console.log("✅ User Recipes seeded");
-  return insertedUserRecipes;
-}
-
-/** 🔹 Run the Seeding Process */
 async function main() {
-  try {
-    console.log("🌱 Seeding Database...");
-    await seedUsers();
-    await seedChatSessions();
-    await seedMessages();
-    await seedRecipes();
-    await seedUserRecipes();
-    console.log("✅ Database successfully seeded!");
-  } catch (error) {
-    console.error("❌ Error seeding database:", error);
-  } finally {
-    await sql.end();
-  }
+  console.log('Seeding database...');
+
+  // Seed Users
+  const users = await prisma.user.createMany({
+    data: [
+      { id: 1, name: "Alice", email: "alice@example.com", password: "hashed_password" },
+      { id: 2, name: "Bob", email: "bob@example.com", password: "hashed_password" },
+      { id: 3, name: "Charlie", email: "charlie@example.com", password: "hashed_password" },
+    ],
+    skipDuplicates: true,
+  });
+
+  // Seed Recipes
+  const recipes = await prisma.recipe.createMany({
+    data: [
+      {
+        id: 1,
+        name: "Egg Sandwich",
+        category: "breakfast",
+        description: "A simple and delicious breakfast sandwich.",
+        servings: 1,
+        prep_time: 10,
+        cook_time: 5,
+        created_at: new Date(),
+        updated_at: new Date(),
+        last_viewed: new Date(),
+      },
+      {
+        id: 2,
+        name: "Avocado Toast",
+        category: "breakfast",
+        description: "A quick and healthy avocado toast recipe.",
+        servings: 1,
+        prep_time: 5,
+        cook_time: 0,
+        created_at: new Date(),
+        updated_at: new Date(),
+        last_viewed: new Date(),
+      },
+    ],
+    skipDuplicates: true,
+  });
+
+  // Seed Ingredients
+  const ingredients = await prisma.ingredient.createMany({
+    data: [
+      { id: 1, name: "Egg" },
+      { id: 2, name: "Bread" },
+      { id: 3, name: "Butter" },
+      { id: 4, name: "Avocado" },
+      { id: 5, name: "Salt" },
+    ],
+    skipDuplicates: true,
+  });
+
+  // Seed RecipeIngredient (many-to-many relationship)
+  const recipeIngredients = await prisma.recipeIngredient.createMany({
+    data: [
+      { recipe_id: 1, ingredient_id: 1, quantity: 2, unit: "pcs" },
+      { recipe_id: 1, ingredient_id: 2, quantity: 2, unit: "slices" },
+      { recipe_id: 1, ingredient_id: 3, quantity: 1, unit: "tbsp" },
+      { recipe_id: 2, ingredient_id: 4, quantity: 1, unit: "pcs" },
+      { recipe_id: 2, ingredient_id: 5, quantity: 1, unit: "pinch" },
+    ],
+    skipDuplicates: true,
+  });
+
+  console.log('Database seeded successfully!');
 }
 
-main();
+main()
+  .catch((e) => {
+    console.error('Error seeding database:', e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

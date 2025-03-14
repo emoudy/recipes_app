@@ -12,7 +12,7 @@ export default function RecipeMenu() {
   const handleSelectAll = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
-    setSelectedRecipes(newSelectAll ? recipes.map((recipe) => recipe.id) : []);
+    setSelectedRecipes(newSelectAll ? recipes.map(((recipe: RecipeInterface) => recipe.id)) : []);
   };
   
 

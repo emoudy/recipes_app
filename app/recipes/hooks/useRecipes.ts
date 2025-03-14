@@ -21,8 +21,7 @@ export function useRecipes() {
   const category = searchParams.get("category") || "";
   const page = parseInt(searchParams.get("page") || "1", 10);
 
-  const data = recipes;
-  const { data: allrecipes, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR(
     `/api/recipes?category=${encodeURIComponent(category)}&page=${page}`,
     fetcher
   );
