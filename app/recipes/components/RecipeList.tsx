@@ -89,7 +89,7 @@ export default function RecipeList() {
                 )}
               >
                 <h3 className="font-bold text-lg">{recipe.name}</h3>
-                <p className="text-sm">{recipe.prepTime} min</p>
+                <p className="text-sm">{recipe.prep_time} min</p>
               </Link>
             </div>
           );
