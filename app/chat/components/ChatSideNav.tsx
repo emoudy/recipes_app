@@ -16,10 +16,6 @@ export default function ChatSideNav() {
     if (savedState !== null) setIsOpen(JSON.parse(savedState));
   }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem("chatMenuOpen", JSON.stringify(isOpen));
-  // }, [isOpen]);
-
   useEffect(() => {
     async function fetchSessions() {
       const res = await fetch("/api/chatsessions");
@@ -34,10 +30,6 @@ export default function ChatSideNav() {
       "chat-sidebar w-[260px] bg-[var(--sidebar-light)] text-[var(--foreground-light)] p-4 transition-width duration-300 ease-in-out dark:bg-[var(--sidebar-dark)] dark:text-[var(--foreground-dark)]",
       { "collapsed w-[60px]": !isOpen }
     )}>
-      {/* Toggle Button
-      <button onClick={() => setIsOpen(!isOpen)} className="toggle-btn cursor-pointer bg-none border-none text-[20px] mb-3">
-        {isOpen ? "➖" : "➕"}
-      </button> */}
 
       {/* Chat Sessions */}
       {isOpen && (
