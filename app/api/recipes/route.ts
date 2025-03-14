@@ -52,7 +52,7 @@ export async function GET(req: Request) {
       take: pageSize,
       orderBy: { created_at: "desc" },
       include: {
-        recipeIngredient: {
+        recipeIngredients: {
           include: { ingredient: true }, // ✅ Fetch ingredient details
         },
       },
