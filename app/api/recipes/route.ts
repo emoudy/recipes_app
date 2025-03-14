@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "../../../prisma/db";
+import { RecipeInterface } from "@/lib/types";
 
 export async function POST(req: Request) {
   try {
@@ -50,10 +51,19 @@ export async function GET(req: Request) {
       skip: (page - 1) * pageSize,
       take: pageSize,
       orderBy: { created_at: "desc" },
+      include: {
+        recipeIngredient: {
+          include: { ingredient: true }, // ✅ Fetch ingredient details
+        },
+      },
     });
 
-    return NextResponse.json(recipes);
+    return NextResponse.json(
+      recipes
+      ,
+      { status: 200 }
+    );
   } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch recipes" }, { status: 500 });
+    return NextResponse.json({ error: "Error fetching recipes" }, { status: 500 });
   }
 }

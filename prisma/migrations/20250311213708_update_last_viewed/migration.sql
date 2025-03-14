@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Recipe" ALTER COLUMN "last_viewed" SET DEFAULT CURRENT_TIMESTAMP;

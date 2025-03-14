@@ -4,12 +4,13 @@ import { useSearchParams, useRouter } from "next/navigation";
 import clsx from "clsx";
 import { categories } from "@/lib/variables";
 import Link from "next/link";
-import useSWR from "swr";
 import { RecipeInterface } from "@/lib/types";
 import { useRecipes } from "@/recipes/hooks/useRecipes";
+import ButtonStyled from "@/components/elements/ButtonStyled";
 
 // Fetcher function for SWR
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+// TODO: get the data
+// const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function RecipeList() {
   const searchParams = useSearchParams();
@@ -17,12 +18,6 @@ export default function RecipeList() {
   const { recipes, page, filter, error, isLoading } = useRecipes();
 
   const [visitedRecipes, setVisitedRecipes] = useState<string[]>([]);
-
-  // Load visited recipes from localStorage on first render
-  useEffect(() => {
-    const storedVisited = JSON.parse(localStorage.getItem("visitedRecipes") || "[]");
-    setVisitedRecipes(storedVisited);
-  }, []);
 
   // Function to update filter in URL (Triggers new fetch)
   const updateFilter = (newCategory: string) => {
@@ -50,22 +45,20 @@ export default function RecipeList() {
     localStorage.setItem("visitedRecipes", JSON.stringify(updatedVisited));
   };
 
+  // Load visited recipes from localStorage on first render
+  useEffect(() => {
+    const storedVisited = JSON.parse(localStorage.getItem("visitedRecipes") || "[]");
+    setVisitedRecipes(storedVisited);
+  }, []);
+
+  console.log("Hello Recipes");
   return (
     <div className="p-4">
       {/* Filter Buttons */}
-      <div className="flex gap-4 mb-4">
-        {categories.map(category => (
-          <button
-            key={category}
-            onClick={() => updateFilter(category)}
-            className={clsx(
-              "px-4 py-2 rounded",
-              filter === category ? "bg-blue-600 text-white" : "bg-gray-700 text-gray-300"
-            )}
-          >
-            {category.charAt(0).toUpperCase() + category.slice(1)}
-          </button>
-        ))}
+      <div className="flex justify-center gap-4 mb-4">
+        {categories.map(category =>
+            <ButtonStyled key={category} type="secondary" onClick={() => updateFilter(category)} title={category} />
+        )}
       </div>
 
       {/* Loading & Error States */}
@@ -75,9 +68,9 @@ export default function RecipeList() {
       {/* Recipe Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {recipes?.map((recipe: RecipeInterface) => {
-          const recipeUrl = `/recipes/${recipe.recipeId}`;
+          const recipeUrl = `/recipes/${recipe.id}`;
           return (
-            <div key={recipe.recipeId} className="relative p-4 bg-gray-800 text-white rounded">
+            <div key={recipe.id} className="relative p-4 bg-gray-800 text-white rounded">
               {/* Checkbox & Edit button - These stay OUTSIDE of the clickable link */}
               <div className="absolute top-2 left-2">
                 <input type="checkbox" className="mr-2" />

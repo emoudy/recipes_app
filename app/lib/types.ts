@@ -20,15 +20,22 @@ export type MessageInterface  = {
   messageTimestamp: Date; // ISO 8601 date-time string
 };
 
-export type RecipeInterface = {
+export interface RecipeInterface {
   id: number;
   name: string;
   category: string;
   description: string;
+  ingredients: {
+    id: number;
+    name: string;
+    quantity: number;
+    unit: string;
+  }[];
+  instructions: string[];
   servings: number;
-  prepTime: number; // In minutes
-  cookTime: number; // In minutes
-  createdAt: Date; // YYYY-MM-DD format
-  updatedAt: Date; // YYYY-MM-DD format
-  lastViewed: Date; // YYYY-MM-DD format
-};
+  prep_time: number;
+  cook_time: number;
+  created_at: string;
+  updated_at: string;
+  last_viewed: string;
+}

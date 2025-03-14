@@ -4,20 +4,17 @@ import { useState } from "react";
 import { useRecipes } from "../hooks/useRecipes";
 
 export default function RecipeMenu() {
-  const { recipes, page, filter, error, isLoading, mutate } = useRecipes();
+  const { recipes, mutate } = useRecipes();
 
   const [selectedRecipes, setSelectedRecipes] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState(false);
 
-  // Handle Select All toggle
   const handleSelectAll = () => {
-    if (selectAll) {
-      setSelectedRecipes([]); // Deselect all
-    } else {
-      setSelectedRecipes(recipes.map((recipe: RecipeInterface) => recipe.recipeId)); // Select all
-    }
-    setSelectAll(!selectAll);
+    const newSelectAll = !selectAll;
+    setSelectAll(newSelectAll);
+    setSelectedRecipes(newSelectAll ? recipes.map((recipe) => recipe.id) : []);
   };
+  
 
   // Handle individual selection
   const handleSelect = (recipeId: number) => {
@@ -37,7 +34,8 @@ export default function RecipeMenu() {
       );
 
       // Optimistically update the cache after deletion
-      mutate(recipes.filter((recipe: RecipeInterface) => !selectedRecipes.includes(Number(recipe.recipeId))), false);
+      console.log("Recipes before mutate:", recipes);
+      mutate(recipes.filter((recipe: RecipeInterface) => !selectedRecipes.includes(recipe.id)), false);
 
       // Reset selection state
       setSelectedRecipes([]);
@@ -47,10 +45,11 @@ export default function RecipeMenu() {
     }
   };
 
+  console.log("Hello Menu");
   return (
     <div className="flex flex-col bg-gray-900 text-white p-4">
-      {/* Error Handling */}
-      {error && <p className="text-red-500">Failed to load recipes.</p>}
+      {/* TODO: Error Handling */}
+      {/* {error && <p className="text-red-500">Failed to load recipes.</p>} */}
 
       {/* Select All Checkbox */}
       <div className="flex items-center justify-between">
@@ -75,20 +74,6 @@ export default function RecipeMenu() {
           </button>
         </div>
       </div>
-
-      {/* Recipe List with Checkboxes */}
-      <ul className="mt-4">
-        {recipes.map((recipe: RecipeInterface) => (
-          <li key={recipe.recipeId} className="flex items-center gap-2 py-1">
-            <input
-              type="checkbox"
-              checked={selectedRecipes.includes(Number(recipe.recipeId))}
-              onChange={() => handleSelect(Number(recipe.recipeId))}
-            />
-            {recipe.name}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

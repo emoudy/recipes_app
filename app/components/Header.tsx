@@ -3,18 +3,18 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
-import clsx from "clsx";
+// import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
+// import clsx from "clsx";
 
 export default function Header() {
   const pathname = usePathname();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const toggleTheme = () => {
-    setIsDarkMode((prev) => !prev);
-    document.documentElement.setAttribute("data-theme", isDarkMode ? "light" : "dark");
-  };
+  // const toggleTheme = () => {
+  //   setIsDarkMode((prev) => !prev);
+  //   document.documentElement.setAttribute("data-theme", isDarkMode ? "light" : "dark");
+  // };
 
   return (
     <header className="header flex justify-between items-center px-5 py-3 border-b-2 border-[var(--border-light)] bg-[var(--background-light)] text-[var(--foreground-light)] dark:bg-[var(--background-dark)] dark:text-[var(--foreground-dark)] dark:border-[var(--border-dark)]">

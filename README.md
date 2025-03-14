@@ -41,7 +41,7 @@ UPSTASH_REDIS_TOKEN="your-upstash-redis-token"
 ## Initialize the Database
 pnpm prisma format  // updates the prisma schema
 pnpm prisma migrate dev --name init_schema  // or update a field with 'pnpm prisma migrate dev --name update_user_password' for example, and then Restart TypeScript Server (Press Cmd + Shift + P (Mac) or Ctrl + Shift + P (Windows/Linux)).
-pnpm prisma generate  
+pnpm prisma generate
 
 ## Run the Development Server
 pnpm run dev
@@ -59,3 +59,16 @@ POST	/api/messages	    Send a message to AI
 GET	/api/recipes	        Fetch recipes (supports filtering & pagination)
 POST	/api/recipes	    Save a new recipe
 DELETE	/api/recipes/:id    Delete a recipe
+
+## Update the database schema
+pnpm prisma migrate reset                       Wipes previous migration
+pnpm prisma format                              Formats and validates the schema
+pnpm prisma generate                            Regenerates the Prisma Client
+pnpm prisma migrate dev --name update_schema    Creates a new migration with a new schema
+pnpm prisma migrate deploy
+pnpm prisma studio                              Displays the database to make sure the changes have been applied
+
+If error presist, try restarting the TypeScript server:
+-- Press Cmd + Shift + P (Mac) or Ctrl + Shift + P (Windows/Linux)
+-- Search for: "TypeScript: Restart TS server"
+-- Click on it.

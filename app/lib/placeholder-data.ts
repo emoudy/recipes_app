@@ -36,11 +36,11 @@ const recipes = [
       "Place the cooked eggs between the bread slices and serve.",
     ],
     servings: 1,
-    prepTime: 10,
-    cookTime: 5,
-    createdAt: "2022-12-06",
-    updatedAt: "2022-12-06",
-    lastViewed: "2022-12-06",
+    prep_time: 10,
+    cook_time: 5,
+    created_at: "2022-12-06",
+    updated_at: "2022-12-06",
+    last_viewed: "2022-12-06",
   },
   {
     id: 2,
@@ -57,11 +57,11 @@ const recipes = [
       "Sprinkle with salt and serve.",
     ],
     servings: 1,
-    prepTime: 5,
-    cookTime: 0,
-    createdAt: "2022-12-11",
-    updatedAt: "2022-12-11",
-    lastViewed: "2022-12-14",
+    prep_time: 5,
+    cook_time: 0,
+    created_at: "2022-12-11",
+    updated_at: "2022-12-11",
+    last_viewed: "2022-12-14",
   },
   {
     id: 3,
@@ -78,19 +78,19 @@ const recipes = [
       "Serve chilled.",
     ],
     servings: 1,
-    prepTime: 5,
-    cookTime: 0,
-    createdAt: "2022-12-15",
-    updatedAt: "2022-12-15",
-    lastViewed: "2022-12-18",
+    prep_time: 5,
+    cook_time: 0,
+    created_at: "2022-12-15",
+    updated_at: "2022-12-15",
+    last_viewed: "2022-12-18",
   }
 ];
 
 // USER_RECIPES TABLE (Tracks which user saved which recipe)
 const userRecipes = [
-  { userId: 92301928, recipeId: 1, savedAt: "2022-12-06" },
-  { userId: 92301929, recipeId: 2, savedAt: "2022-12-11" },
-  { userId: 92301930, recipeId: 3, savedAt: "2022-12-15" },
+  { user_id: 92301928, recipe_id: [1, 2, 3] },
+  { user_id: 92301929, recipe_id: [2, 3]},
+  { user_id: 92301930, recipe_id: [3] },
 ];
 
 // CHAT SESSIONS TABLE
@@ -98,23 +98,23 @@ const chatSessions = [
   {
     id: 1,
     name: "Breakfast Recipes",
-    userId: 92301928, // Alice
-    createdAt: "2022-12-06T12:00:00Z",
-    updatedAt: "2022-12-06T12:00:00Z",
+    user_id: 92301928, // Alice
+    created_at: "2022-12-06T12:00:00Z",
+    updated_at: "2022-12-06T12:00:00Z",
   },
   {
     id: 2,
     name: "Healthy Meals",
-    userId: 92301929, // Bob
-    createdAt: "2022-12-07T10:00:00Z",
-    updatedAt: "2022-12-07T10:05:00Z",
+    user_id: 92301929, // Bob
+    created_at: "2022-12-07T10:00:00Z",
+    updated_at: "2022-12-07T10:05:00Z",
   },
   {
     id: 3,
     name: "Quick Breakfast Ideas",
-    userId: 92301930, // Charlie
-    createdAt: "2022-12-08T08:00:00Z",
-    updatedAt: "2022-12-08T08:10:00Z",
+    user_id: 92301930, // Charlie
+    created_at: "2022-12-08T08:00:00Z",
+    updated_at: "2022-12-08T08:10:00Z",
   }
 ];
 
@@ -122,31 +122,31 @@ const chatSessions = [
 const messages = [
   {
     id: 1,
-    chatSessionId: 1,
-    userInput: "Hello, how are you?",
+    chat_session_id: 1,
+    user_query: "Hello, how are you?",
     timestamp: "2022-12-06T12:00:00Z",
-    aiOutput: "Doing well, thanks. How about you?",
+    ai_response: "Doing well, thanks. How about you?",
   },
   {
     id: 2,
-    chatSessionId: 1,
-    userInput: "I am planning to make an egg sandwich for breakfast. Do you have a recipe?",
+    chat_session_id: 1,
+    user_query: "I am planning to make an egg sandwich for breakfast. Do you have a recipe?",
     timestamp: "2022-12-06T12:02:00Z",
-    aiOutput: "Sure! Here is a simple recipe for an egg sandwich...",
+    ai_response: "Sure! Here is a simple recipe for an egg sandwich...",
   },
   {
     id: 3,
-    chatSessionId: 2,
-    userInput: "What's a healthy meal for lunch?",
+    chat_session_id: 2,
+    user_query: "What's a healthy meal for lunch?",
     timestamp: "2022-12-07T10:00:00Z",
-    aiOutput: "How about a fresh chicken salad? Would you like a recipe?",
+    ai_response: "How about a fresh chicken salad? Would you like a recipe?",
   },
   {
     id: 4,
-    chatSessionId: 3,
-    userInput: "I need a quick breakfast idea. Any suggestions?",
+    chat_session_id: 3,
+    user_query: "I need a quick breakfast idea. Any suggestions?",
     timestamp: "2022-12-08T08:00:00Z",
-    aiOutput: "Pancakes are a great option! Here's a recipe for fluffy pancakes...",
+    ai_response: "Pancakes are a great option! Here's a recipe for fluffy pancakes...",
   }
 ];
 
