@@ -24,7 +24,7 @@ export default function ChatDisplay() {
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`message bg-[var(--input-light)] text-[var(--foreground-light)] p-3 rounded-lg mb-2.5 max-w-[75%] dark:bg-[var(--input-dark)] dark:text-[var(--foreground-dark)] ${msg.userInput ? "user-message" : ""}`}
+            className={`message bg-[var(--input-light)] text-[var(--foreground-light)] p-3 rounded-lg mb-2.5 max-w-[75%] dark:bg-[var(--input-dark)] dark:text-[var(--foreground-dark)] ${msg.userQuery ? "user-message" : ""}`}
           >
             <p className="font-bold">User: {msg.userQuery}</p>
             <p>AI: {msg.aiResponse}</p>
