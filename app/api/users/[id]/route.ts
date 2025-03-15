@@ -1,6 +1,6 @@
 
 import { NextResponse } from "next/server";
-import { db } from "../../../../prisma/db";
+import { db } from "../../../../../lib/db/db";
 
 export async function GET(req: Request, { params }: { params: { id: number } }) {
   try {

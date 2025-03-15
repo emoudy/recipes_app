@@ -1,42 +1,24 @@
 
 import { NextResponse } from "next/server";
-import { db } from "../../../../prisma/db";
+import { db } from "@/lib/db/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/auth.config";
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-  try {
-    const recipeId = Number(params.id);
-
-    if (isNaN(recipeId)) {
-      return NextResponse.json({ error: "Invalid recipe ID" }, { status: 400 });
-    }
-
-    // ✅ Delete the recipe and related userRecipe entries in a transaction
-    await db.$transaction([
-      db.userRecipe.deleteMany({ where: { recipe_id: recipeId } }), // Remove associations
-      db.recipe.delete({ where: { id: recipeId } }), // Remove the recipe
-    ]);
-
-    return NextResponse.json({ message: "Recipe deleted successfully" }, { status: 200 });
-
-  } catch (error) {
-    console.error("Error deleting recipe:", error);
-    return NextResponse.json({ error: "Error deleting recipe" }, { status: 500 });
-  }
-}
-
-export async function PATCH(req: Request, { params }: { params: { id: number } }) {
+export async function PATCH(req: Request) {
     try {
-      const recipeId = params.id;
-  
-      if (isNaN(recipeId)) {
-        return NextResponse.json({ error: "Invalid recipe ID" }, { status: 400 });
+      const session = await getServerSession(authOptions);
+      if (!session) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
+      
+      const { searchParams } = new URL(req.url);
+      const recipeId = Number(searchParams.get("id"));
   
       // ✅ Parse the request body
-      const { name, category, description, servings, prepTime, cookTime, lastViewed } = await req.json();
+      const { name, category, description, servings, prepTime, cookTime } = await req.json();
   
       // ✅ Ensure at least one field is being updated
-      if (!name && !category && !description && !servings && !prepTime && !cookTime && !lastViewed) {
+      if (!name && !category && !description && !servings && !prepTime && !cookTime) {
         return NextResponse.json({ error: "No update fields provided" }, { status: 400 });
       }
   
@@ -50,8 +32,6 @@ export async function PATCH(req: Request, { params }: { params: { id: number } }
           servings,
           prep_time: prepTime,
           cook_time: cookTime,
-          last_viewed: lastViewed ? new Date(lastViewed) : undefined,
-          updated_at: new Date(), // ✅ Automatically update timestamp
         },
       });
   

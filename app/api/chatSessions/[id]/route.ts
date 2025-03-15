@@ -1,14 +1,11 @@
 
 import { NextResponse } from "next/server";
-import { db } from "../../../../prisma/db";
+import { db } from "@/lib/db/db";
 
-export async function GET(req: Request, { params }: { params: { chatSessionId: number } }) {
+export async function GET(req: Request) {
   try {
-    const chatSessionId = params.chatSessionId;
-
-    if (isNaN(chatSessionId)) {
-      return NextResponse.json({ error: "Invalid chat session ID" }, { status: 400 });
-    }
+    const { searchParams } = new URL(req.url);
+    const chatSessionId = Number(searchParams.get("id"));
 
     const messages = await db.message.findMany({
       where: { chat_session_id: chatSessionId },
