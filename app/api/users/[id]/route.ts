@@ -1,22 +1,25 @@
 
 import { NextResponse } from "next/server";
-import { db } from "../../../../../lib/db/db";
+import { db } from "@/lib/db/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/auth.config";
 
-export async function GET(req: Request, { params }: { params: { id: number } }) {
+export async function GET(req: Request) {
   try {
-    const userId = Number(params.id);
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const userId = Number(session.user.id);
 
-    if (isNaN(userId)) {
-      return NextResponse.json({ error: "Invalid user ID" }, { status: 400 });
+    if (!userId) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const user = await db.user.findUnique({
       where: { id: userId },
+      select: { name: true,  email: true  }
     });
-
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
 
     return NextResponse.json(user, { status: 200 });
 

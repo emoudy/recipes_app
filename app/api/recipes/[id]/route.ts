@@ -42,3 +42,37 @@ export async function PATCH(req: Request) {
       return NextResponse.json({ error: "Error updating recipe" }, { status: 500 });
     }
   }
+
+  export async function GET(req: Request) {
+    try {
+      const session = await getServerSession(authOptions);
+      if (!session) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+  
+      const { searchParams } = new URL(req.url);
+      const recipeId = Number(searchParams.get("id"));
+  
+      const userId = session.user.id;
+  
+      // Fetch paginated recipes
+      const recipe = await db.recipe.findFirst({
+        where: {
+          id: recipeId,
+        },
+        include: {
+          recipeIngredients: {
+            include: { ingredient: true },
+          },
+        },
+      });
+  
+      return NextResponse.json(
+        { recipe },
+        { status: 200 }
+      );
+    } catch (error) {
+      console.error("Error fetching recipe:", error);
+      return NextResponse.json({ error: "Error fetching recipe" }, { status: 500 });
+    }
+  }
