@@ -2,9 +2,9 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import clsx from "clsx";
-import { categories } from "@/lib/variables";
+import { categories } from "@/lib/variables/variables";
 import Link from "next/link";
-import { RecipeInterface } from "@/lib/types";
+import { RecipeInterface } from "@/lib/variables/types";
 import { useRecipes } from "@/recipes/hooks/useRecipes";
 import ButtonStyled from "@/components/elements/ButtonStyled";
 
