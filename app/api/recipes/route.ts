@@ -127,12 +127,17 @@ export async function DELETE(req: Request) {
 
     const deleteRecipeIds = recipeIds.map(recipe => recipe.id);
 
-    // ✅ Step 2: Delete recipes in batch
+    // Delete recipes in the userRecipe table
+      await db.userRecipe.deleteMany({
+      where: { recipe_id: { in: deleteRecipeIds } },
+    });
+    
+    // Delete recipes in the recipe table
     await db.recipe.deleteMany({
       where: { id: { in: deleteRecipeIds } },
     });
 
-    // ✅ Step 3: Remove only the deleted recipes from cache
+    // Remove only the deleted recipes from cache
     removeCachedRecipeIds(deleteRecipeIds);
 
     // console.log(`Deleted recipes: ${deleteRecipeIds.join(", ")} and updated cache`);
