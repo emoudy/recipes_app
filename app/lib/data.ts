@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { db } from "../../prisma/db";
+import { db } from "@/lib/db/db";
 
 /** 🔹 Hashes a user's password */
 export async function hashPassword(password: string): Promise<string> {
