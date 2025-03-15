@@ -125,11 +125,12 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Recipe IDs are required" }, { status: 400 });
     }
 
+    const userId = session.user.id; 
     const deleteRecipeIds = recipeIds.map(recipe => recipe.id);
 
     // Delete recipes in the userRecipe table
       await db.userRecipe.deleteMany({
-      where: { recipe_id: { in: deleteRecipeIds } },
+      where: { recipe_id: { in: deleteRecipeIds }, user_id: userId },
     });
     
     // Delete recipes in the recipe table
