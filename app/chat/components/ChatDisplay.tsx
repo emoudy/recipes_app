@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { MessageInterface } from "@/lib/types";
+import { MessageInterface } from "@/lib/variables/types";
 import Header from "@/components/Header";
 import ChatInput from "./ChatInput";
 import ButtonStyled from "@/components/elements/ButtonStyled";
@@ -26,8 +26,8 @@ export default function ChatDisplay() {
             key={index}
             className={`message bg-[var(--input-light)] text-[var(--foreground-light)] p-3 rounded-lg mb-2.5 max-w-[75%] dark:bg-[var(--input-dark)] dark:text-[var(--foreground-dark)] ${msg.userInput ? "user-message" : ""}`}
           >
-            <p className="font-bold">User: {msg.userInput}</p>
-            <p>AI: {msg.aiInput}</p>
+            <p className="font-bold">User: {msg.userQuery}</p>
+            <p>AI: {msg.aiResponse}</p>
           </div>
         ))}
       </div>

@@ -21,9 +21,9 @@
     "paths": {
       "@/*": ["./app/*"],
       "@/lib/*": ["./app/lib/*"],
-      "@/prisma/*": ["./app/prisma/*"],
+      "@/prisma/*": ["./app/lib/db/prisma/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/auth/[...nextauth]", "next.config.mjs"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(auth)/api/auth/[...nextauth].ts", "next.config.mjs"],
   "exclude": ["node_modules"]
 }
