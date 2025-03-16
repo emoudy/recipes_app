@@ -1,15 +1,13 @@
 
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db/db";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth/auth.config";
+import { getValidatedSession } from "@/lib/auth/auth";
 
 export async function PATCH(req: Request) {
     try {
-      const session = await getServerSession(authOptions);
-      if (!session) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-      }
+    const session = await getValidatedSession(req);
+    // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
+    if (session instanceof NextResponse) return session;
       
       const { searchParams } = new URL(req.url);
       const recipeId = Number(searchParams.get("id"));
@@ -45,10 +43,9 @@ export async function PATCH(req: Request) {
 
   export async function GET(req: Request) {
     try {
-      const session = await getServerSession(authOptions);
-      if (!session) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-      }
+      const session = await getValidatedSession(req);
+      // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
+      if (session instanceof NextResponse) return session;
   
       const { searchParams } = new URL(req.url);
       const recipeId = Number(searchParams.get("id"));

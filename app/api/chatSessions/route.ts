@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth/auth.config";
 import { db } from "@/lib/db/db";
+import { getValidatedSession } from "@/lib/auth/auth";
 
 export async function GET(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user || !session.user.id) {
-      return NextResponse.json({ error: "Unauthorized - Missing user ID" }, { status: 401 });
-    }
+    const session = await getValidatedSession(req);
+    // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
+    if (session instanceof NextResponse) return session;
 
     const userId = session.user.id;
     const chatSessions = await db.chatSession.findMany({ 
@@ -25,8 +23,9 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) throw new Error("Unauthorized");
+    const session = await getValidatedSession(req);
+    // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
+    if (session instanceof NextResponse) return session;
 
     const userId = session.user.id;
     const { chatSessionName } = await req.json();

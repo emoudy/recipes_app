@@ -1,20 +1,18 @@
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db/db";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth/auth.config";
+import { getValidatedSession } from "@/lib/auth/auth";
 import { getCachedRecipeIds, setCachedRecipeIds, removeCachedRecipeIds } from "@/lib/cache";
+import { db } from "@/lib/db/db";
 
 export async function GET(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const session = await getValidatedSession(req);
+    // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
+    if (session instanceof NextResponse) return session;
 
     const { searchParams } = new URL(req.url);
-    const category = searchParams.get("category");
+    const category = searchParams.get("category") || "";
     let page = parseInt(searchParams.get("page") || "1", 10);
-    const pageSize = 10; // Default page size
+    const pageSize = 10; // pagination per page
 
     if (page < 1) page = 1; // Prevent invalid pages
 
@@ -54,12 +52,12 @@ export async function GET(req: Request) {
       },
       skip: (page - 1) * pageSize,
       take: pageSize,
-      orderBy: { created_at: "desc" },
       include: {
         recipeIngredients: {
           include: { ingredient: true },
         },
       },
+      orderBy: { created_at: "desc" },
     });
 
     // Calculate if there is a next page
@@ -77,10 +75,10 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const session = await getValidatedSession(req);
+    // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
+    if (session instanceof NextResponse) return session;
+
     const { name, category, prepTime, cookTime, description, servings } = await req.json();
     const userId = session.user.id;
 
@@ -114,10 +112,9 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const session = await getValidatedSession(req);
+    // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
+    if (session instanceof NextResponse) return session;
 
     const { recipeIds } = await req.json(); // Expect an array of recipe IDs in the body
 
