@@ -1,11 +1,13 @@
-const ChatSession = {
+const ChatService = {
+  /** Fetches all chat sessions for a user without details */
   fetchChatSessions: async () => {
     const res = await fetch(`/api/chatsessions`);
     if (!res.ok) throw new Error("Failed to fetch chat sessions");
     return res.json();
   },
+  /** Fetches a chat sessions with all details */
   fetchChatSession: async(chatSessionId: number) => {
-    const res = await fetch(`/api/chatsessions?chatSessionId=${chatSessionId}`);
+    const res = await fetch(`/api/chatsessions?id=${chatSessionId}`);
     if (!res.ok) throw new Error("Failed to fetch the chat session");
     return res.json();
   },
@@ -40,4 +42,4 @@ const ChatSession = {
 
 };
 
-export default ChatSession;
+export default ChatService;
