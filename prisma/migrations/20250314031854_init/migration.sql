@@ -25,7 +25,7 @@ CREATE TABLE "Message" (
     "chat_session_id" INTEGER NOT NULL,
     "user_query" TEXT NOT NULL,
     "ai_response" TEXT NOT NULL,
-    "message_timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "timestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Message_pkey" PRIMARY KEY ("id")
 );
