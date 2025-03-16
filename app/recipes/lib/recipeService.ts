@@ -1,6 +1,6 @@
 import { RecipeInterface } from "@/lib/variables/types";
 
-const ChatSession = {
+const RecipeService = {
 	fetchRecipes: async () => {
     const res = await fetch(`/api/recipes`, { method: "GET" });
     if (!res.ok) throw new Error("Failed to fetch recipes");
@@ -22,12 +22,17 @@ const ChatSession = {
     if (!res.ok) throw new Error("Failed to save recipe");
     return res.json();
   },
+
+  deleteRecipes: async (recipeIds: number[]) => {
+    const res = await fetch(`/api/recipes`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ recipeIds }),
+    });
   
-	deleteRecipe: async (id: number ) => {
-    const res = await fetch(`/api/recipes/${id}`, { method: "DELETE" });
-    if (!res.ok) throw new Error("Failed to delete recipe");
+    if (!res.ok) throw new Error("Failed to delete recipes");
     return res.json();
-  }
+  },
 };
 
-export default ChatSession;
+export default RecipeService;
