@@ -1,42 +1,51 @@
 "use client";
 import { useState, useEffect } from "react";
+import ChatSession from "@/chat/lib/chatService";
+import { ChatSessionInterface } from "@/lib/variables/types";
 
-interface ChatSession {
-  chatSessionId: number;
-  name: string;
-}
+export default function ChatSideNav() {
+  const [chatSessions, setChatSessions] = useState<ChatSessionInterface[]>([]);
+  const [trigger, setTrigger] = useState(0);
 
-export default function ChatSideNav({ userId }: { userId: number | null }) {
-  const [chatSessions, setChatSessions] = useState<ChatSession[]>([]);
+  const handleNewChatSession = async () => {
+    try {
+      await ChatSession.createChatSession("New Chat Session");
+      setTrigger(prev => prev + 1);
+    } catch (error) {
+      console.error("Failed to create chat session:", error);
+    }
+  };
+
+  const handleDeleteChatSession = async (id: number) => {
+    try {
+      await ChatSession.deleteChatSession(id);
+      setTrigger(prev => prev + 1);
+    } catch (error) {
+      console.error("Failed to delete chat session:", error);
+    }
+  };
 
   useEffect(() => {
-    if (!userId) return; // ✅ Don't fetch if no user is logged in
-
-    async function fetchSessions() {
-      try {
-        const res = await fetch(`/api/chatSessions?userId=${userId}`);
-        if (!res.ok) throw new Error("Failed to fetch chat sessions");
-        const data = await res.json();
-        setChatSessions(data);
-      } catch (error) {
-        console.error("Error fetching chat sessions:", error);
-      }
-    }
-
-    fetchSessions();
-  }, [userId]);
-
-  console.log("HELLO", chatSessions);
+    ChatSession.fetchChatSessions()
+      .then(setChatSessions)
+      .catch(console.error);
+  }, [trigger]);
 
   return (
     <aside className="chat-sidebar w-[260px] bg-[var(--sidebar-light)] text-[var(--foreground-light)] p-4 transition-width duration-300 ease-in-out dark:bg-[var(--sidebar-dark)] dark:text-[var(--foreground-dark)]">
-
-      {/* Chat Sessions */}
         <div className="h-screen bg-red">
-          <h3 className="text-lg font-semibold">Chat Sessions</h3>
+          <div className="flex flex-row">
+            <h3 className="text-lg font-semibold">Chat Sessions</h3>
+            <button onClick={handleNewChatSession} className="h-auto self-start toggle-btn cursor-pointer bg-none border-none text-[20px] mb-3">
+              {"➕"}
+            </button>
+          </div>
           <ul className="chat-sessions list-none p-0">
             {chatSessions?.map((session) => (
-              <li key={session.chatSessionId} className="p-2.5 cursor-pointer rounded-md transition-colors duration-300 hover:bg-[var(--accent-light)] hover:text-[var(--background-light)] dark:hover:bg-[var(--accent-dark)] dark:hover:text-[var(--background-dark)] p-2">
+              <li key={session.id} className="p-2.5 cursor-pointer rounded-md transition-colors duration-300 hover:bg-[var(--accent-light)] hover:text-[var(--background-light)] dark:hover:bg-[var(--accent-dark)] dark:hover:text-[var(--background-dark)] p-2">
+                <button onClick={() => handleDeleteChatSession(session.id)} className="h-auto self-start toggle-btn cursor-pointer bg-none border-none text-[20px] mb-3">
+                  {"➕"}
+                </button>
                 {session.name}
               </li>
             ))}
