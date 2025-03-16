@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import ChatSession from "@/chat/lib/chatService";
+import ChatService from "@/chat/lib/chatService";
 import { ChatSessionInterface } from "@/lib/variables/types";
 
 export default function ChatSideNav() {
@@ -9,7 +9,7 @@ export default function ChatSideNav() {
 
   const handleNewChatSession = async () => {
     try {
-      await ChatSession.createChatSession("New Chat Session");
+      await ChatService.createChatSession("New Chat Session");
       setTrigger(prev => prev + 1);
     } catch (error) {
       console.error("Failed to create chat session:", error);
@@ -18,7 +18,7 @@ export default function ChatSideNav() {
 
   const handleDeleteChatSession = async (id: number) => {
     try {
-      await ChatSession.deleteChatSession(id);
+      await ChatService.deleteChatSession(id);
       setTrigger(prev => prev + 1);
     } catch (error) {
       console.error("Failed to delete chat session:", error);
@@ -26,7 +26,7 @@ export default function ChatSideNav() {
   };
 
   useEffect(() => {
-    ChatSession.fetchChatSessions()
+    ChatService.fetchChatSessions()
       .then(setChatSessions)
       .catch(console.error);
   }, [trigger]);
