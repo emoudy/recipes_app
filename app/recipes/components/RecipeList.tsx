@@ -48,7 +48,6 @@ export default function RecipeList() {
     setVisitedRecipes(storedVisited);
   }, []);
 
-  console.log("Hello Recipes");
   return (
     <div className="p-4">
       {/* Filter Buttons */}

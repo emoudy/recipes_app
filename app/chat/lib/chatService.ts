@@ -1,18 +1,18 @@
 const ChatService = {
   /** Fetches all chat sessions for a user without details */
   fetchChatSessions: async () => {
-    const res = await fetch(`/api/chatsessions`);
+    const res = await fetch(`/api/chat-sessions`);
     if (!res.ok) throw new Error("Failed to fetch chat sessions");
     return res.json();
   },
   /** Fetches a chat sessions with all details */
   fetchChatSession: async(chatSessionId: number) => {
-    const res = await fetch(`/api/chatsessions?id=${chatSessionId}`);
+    const res = await fetch(`/api/chat-sessions?id=${chatSessionId}`);
     if (!res.ok) throw new Error("Failed to fetch the chat session");
     return res.json();
   },
   createChatSession: async (sessionName: string) => {
-    const res = await fetch(`/api/chatsessions`, {
+    const res = await fetch(`/api/chat-sessions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: sessionName }),
@@ -22,7 +22,7 @@ const ChatService = {
     return res.json();
   },
   updateChatSession: async (id: number, newName: string) => {
-    const res = await fetch(`/api/chatsessions/${id}`, {
+    const res = await fetch(`/api/chat-sessions/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: newName }),
@@ -32,7 +32,7 @@ const ChatService = {
     return res.json();
   },
   deleteChatSession: async (id: number) => {
-    const res = await fetch(`/api/chatsessions/${id}`, {
+    const res = await fetch(`/api/chat-sessions/${id}`, {
       method: "DELETE",
     });
 

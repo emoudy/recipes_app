@@ -43,7 +43,6 @@ export default function RecipeMenu() {
     }
   };
 
-  console.log("Hello Menu");
   return (
     <div className="flex flex-col bg-gray-900 text-white p-4">
       {/* TODO: Error Handling */}
