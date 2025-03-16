@@ -2,6 +2,7 @@
 import { RecipeInterface } from "@/lib/variables/types";
 import { useState } from "react";
 import { useRecipes } from "../hooks/useRecipes";
+import RecipeService from "@/recipes/lib/recipeService";
 
 export default function RecipeMenu() {
   const { recipes, mutate } = useRecipes();
@@ -26,16 +27,13 @@ export default function RecipeMenu() {
   // Handle Delete selected recipes
   const handleDelete = async () => {
     try {
-      await Promise.all(
-        selectedRecipes.map(async (recipeId) => {
-          const res = await fetch(`/api/recipes/${recipeId}`, { method: "DELETE" });
-          if (!res.ok) throw new Error(`Failed to delete recipe ${recipeId}`);
-        })
-      );
+    await RecipeService.deleteRecipes(selectedRecipes);
 
-      // Optimistically update the cache after deletion
-      console.log("Recipes before mutate:", recipes);
-      mutate(recipes.filter((recipe: RecipeInterface) => !selectedRecipes.includes(recipe.id)), false);
+    // ✅ Optimistically update the UI after deletion
+    mutate(
+      recipes.filter((recipe: RecipeInterface) => !selectedRecipes.includes(recipe.id)), 
+      false
+    );
 
       // Reset selection state
       setSelectedRecipes([]);
