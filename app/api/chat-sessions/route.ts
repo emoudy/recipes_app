@@ -7,6 +7,7 @@ export async function GET(req: NextRequest) {
     const session = await getValidatedSession(req);
     // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
     if (session instanceof NextResponse) return session;
+    console.log("GET ChatSessions", session)
 
     const userId = session.user.id;
     const chatSessions = await db.chatSession.findMany({ 

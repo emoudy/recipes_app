@@ -13,9 +13,9 @@ export async function GET(req: Request) {
         id: true,
         user_query: true,
         ai_response: true,
-        message_timestamp: true,
+        timestamp: true,
       },
-      orderBy: { message_timestamp: "asc" }, // Sort by oldest messages first
+      orderBy: { timestamp: "asc" }, // Sort by oldest messages first
     });
 
     if (!messages.length) {

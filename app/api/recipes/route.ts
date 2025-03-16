@@ -138,8 +138,6 @@ export async function DELETE(req: Request) {
     // Remove only the deleted recipes from cache
     removeCachedRecipeIds(deleteRecipeIds);
 
-    // console.log(`Deleted recipes: ${deleteRecipeIds.join(", ")} and updated cache`);
-
     return NextResponse.json({ message: "Deleted recipes successfully" }, { status: 200 });
   } catch (error) {
     console.error("Error deleting recipes:", error);
