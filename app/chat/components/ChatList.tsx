@@ -15,14 +15,14 @@ export default function ChatList() {
     const yesterdayDate = subDays(today, 1);
 
     const grouped = {
-      today: chatSessions.filter(chat => isToday(parseISO(chat.createdAt))),
-      yesterday: chatSessions.filter(chat => isYesterday(parseISO(chat.createdAt))),
-      previous: chatSessions.filter(chat => parseISO(chat.createdAt) < yesterdayDate),
+      today: chatSessions.filter(chat => isToday(parseISO(chat.created_at))),
+      yesterday: chatSessions.filter(chat => isYesterday(parseISO(chat.created_at))),
+      previous: chatSessions.filter(chat => parseISO(chat.created_at) < yesterdayDate),
     };
 
     setGroupedChats(grouped);
   }, []);
-	console.log(groupedChats);
+
   return (
     <div className="w-1/4 min-w-[250px] max-w-[350px] bg-gray-900 text-white h-full p-4 overflow-y-auto">
       <h2 className="text-lg font-bold mb-4">Chat Sessions</h2>
