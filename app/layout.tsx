@@ -1,4 +1,4 @@
-import '@/ui/styles/main.scss';
+import '@/lib/ui/styles/main.scss';
 import Footer from '@/components/Footer';
 import { inter } from '@/lib/ui/styles/utils/fonts';
 
