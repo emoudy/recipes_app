@@ -8,9 +8,6 @@ import { RecipeInterface } from "@/lib/variables/types";
 import { useRecipes } from "@/recipes/hooks/useRecipes";
 import ButtonStyled from "@/components/elements/ButtonStyled";
 
-// Fetcher function for SWR
-// TODO: get the data
-// const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function RecipeList() {
   const searchParams = useSearchParams();
