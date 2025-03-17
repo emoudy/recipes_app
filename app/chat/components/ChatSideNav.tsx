@@ -1,6 +1,6 @@
 "use client";
 
-import { useChatSessions, useCreateChatSession, useDeleteChatSession } from "@/lib/hooks/useChatSessions";
+import { useChatSessions, useCreateChatSession, useDeleteChatSession } from "@/chat/hooks/useChatSessions";
 import { ChatSessionInterface } from "@/lib/variables/types";
 
 export default function ChatSideNav() {
