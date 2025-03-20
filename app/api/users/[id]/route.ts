@@ -1,11 +1,10 @@
-
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db/db";
-import { getValidatedSession } from "@/lib/auth/auth";
+import { getValidatedSession } from "@/lib/auth/authFunctions";
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
-    const session = await getValidatedSession(req);
+    const session = await getValidatedSession();
     // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
     if (session instanceof NextResponse) return session;
 
@@ -27,3 +26,5 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Failed to fetch user" }, { status: 500 });
   }
 }
+
+

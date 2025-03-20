@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { getValidatedSession } from "@/lib/auth/auth";
+import { getValidatedSession } from "@/lib/auth/authFunctions";
 import { getCachedRecipeIds, setCachedRecipeIds, removeCachedRecipeIds } from "@/lib/cache";
 import { db } from "@/lib/db/db";
 
 export async function GET(req: Request) {
   try {
-    const session = await getValidatedSession(req);
+    const session = await getValidatedSession();
     // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
     if (session instanceof NextResponse) return session;
 
@@ -75,7 +75,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const session = await getValidatedSession(req);
+    const session = await getValidatedSession();
     // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
     if (session instanceof NextResponse) return session;
 
@@ -112,7 +112,7 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
-    const session = await getValidatedSession(req);
+    const session = await getValidatedSession();
     // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
     if (session instanceof NextResponse) return session;
 

@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db/db";
-import { getValidatedSession } from "@/lib/auth/auth";
+import { getValidatedSession } from "@/lib/auth/authFunctions";
 
 export async function GET(req: NextRequest) {
   try {
-    const session = await getValidatedSession(req);
+    const session = await getValidatedSession();
+    
     // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
     if (session instanceof NextResponse) return session;
-    console.log("GET ChatSessions", session)
-
+    
     const userId = session.user.id;
+
     const chatSessions = await db.chatSession.findMany({ 
       where: { user_id: userId },
       orderBy: { updated_at: "desc" },
@@ -24,7 +25,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getValidatedSession(req);
+    const session = await getValidatedSession();
     // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
     if (session instanceof NextResponse) return session;
 

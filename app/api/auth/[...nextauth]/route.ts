@@ -1,5 +1,4 @@
-import NextAuth from "next-auth";
-import { authOptions } from "@/lib/auth/auth.config";
+import { handlers } from "@/auth/*";
 
 /*
 This file is a catch-all route that handles multiple dynamic routes
@@ -9,5 +8,4 @@ This file is a catch-all route that handles multiple dynamic routes
 /api/auth/callback/{provider}
 */
 
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export const { GET, POST } = handlers;
