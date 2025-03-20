@@ -4,7 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import clsx from "clsx";
 import { categories } from "@/lib/variables/variables";
 import Link from "next/link";
-import { RecipeInterface } from "@/lib/variables/types";
+import { RecipeInterface } from "@/lib/variables/interfaces";
 import { useRecipes } from "@/recipes/hooks/useRecipes";
 import ButtonStyled from "@/components/elements/ButtonStyled";
 
@@ -12,7 +12,7 @@ import ButtonStyled from "@/components/elements/ButtonStyled";
 export default function RecipeList() {
   const searchParams = useSearchParams();
 	const router = useRouter();
-  const { recipes, page, filter, error, isLoading } = useRecipes();
+  const { recipes, currentPage: page, error, isLoading } = useRecipes();
 
   const [visitedRecipes, setVisitedRecipes] = useState<string[]>([]);
 
@@ -95,15 +95,15 @@ export default function RecipeList() {
       {/* Pagination Controls */}
       <div className="flex justify-center mt-4 gap-4">
         <button
-          onClick={() => updatePage(page - 1)}
-          disabled={page === 1}
+          onClick={() => updatePage(Number(page) - 1)}
+          disabled={Number(page) === 1}
           className="px-4 py-2 bg-gray-700 text-gray-300 rounded disabled:opacity-50"
         >
           Previous
         </button>
         <span className="text-white">Page {page}</span>
         <button
-          onClick={() => updatePage(page + 1)}
+          onClick={() => updatePage(Number(page) + 1)}
           className="px-4 py-2 bg-gray-700 text-gray-300 rounded"
         >
           Next

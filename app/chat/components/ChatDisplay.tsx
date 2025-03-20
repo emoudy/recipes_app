@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
-import { MessageInterface } from "@/lib/variables/types";
-import Header from "@/components/Header";
+import { MessageInterface } from "@/lib/variables/interfaces";
 import ChatInput from "./ChatInput";
 import ButtonStyled from "@/components/elements/ButtonStyled";
 
@@ -12,7 +11,6 @@ export default function ChatDisplay() {
 
   const handleSend = () => {
     if (!input.trim()) return;
-    // TODO: Handle sending logic
     setInput("");
   };
 

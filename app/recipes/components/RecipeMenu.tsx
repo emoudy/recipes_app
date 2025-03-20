@@ -1,5 +1,5 @@
 "use client";
-import { RecipeInterface } from "@/lib/variables/types";
+import { RecipeInterface } from "@/lib/variables/interfaces";
 import { useState } from "react";
 import { useRecipes } from "../hooks/useRecipes";
 import RecipeService from "@/recipes/lib/recipeService";

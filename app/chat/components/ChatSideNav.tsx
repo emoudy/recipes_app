@@ -1,7 +1,7 @@
 "use client";
 
 import { useChatSessions, useCreateChatSession, useDeleteChatSession } from "@/chat/hooks/useChatSessions";
-import { ChatSessionInterface } from "@/lib/variables/types";
+import { ChatSessionInterface } from "@/lib/variables/interfaces";
 
 export default function ChatSideNav() {
   const { data: chatSessions, error, isLoading } = useChatSessions();
