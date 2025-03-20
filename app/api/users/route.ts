@@ -1,4 +1,4 @@
-import { SignupFormSchema } from "@/lib/variables/definitions";
+import { SignupFormSchema } from "@/lib/variables/schemas";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db/db";
 import bcrypt from "bcryptjs";

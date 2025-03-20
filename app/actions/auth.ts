@@ -1,4 +1,5 @@
-import { FormState, SignupFormSchema } from '@/lib/variables/definitions';
+import { SignupFormSchema } from '@/lib/variables/schemas';
+import { FormState } from '@/lib/variables/types';
 
 export async function signup(state: FormState, formData: FormData): Promise<FormState>  {
 
