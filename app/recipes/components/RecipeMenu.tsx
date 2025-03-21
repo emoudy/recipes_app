@@ -9,15 +9,7 @@ export default function RecipeMenu() {
   const searchParams = useSearchParams();
   const category = searchParams.get("category") || "";
   const currentPage = Number(searchParams.get("page")) || 1;
-  // recipes: data.recipes,
-  // totalRecipes: data.totalRecipes,
-  // hasNextPage: data.hasNextPage,
-  // fetchNextPage: refetch,
-  // currentPage: page,
-  // error,
-  // isError: isError,
-  // isLoading,
-  // category,
+  // TODO: refetch
   const { recipes, refetch } = useRecipes(category, currentPage);
 
   const [selectedRecipes, setSelectedRecipes] = useState<number[]>([]);
