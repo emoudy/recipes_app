@@ -1,8 +1,6 @@
-'use client'
-
 import '@/lib/ui/styles/main.scss';
 import Footer from '@/components/Footer';
-import { inter } from '@/lib/ui/styles/utils/fonts';
+import { inter } from '@/lib/styles/utils/fonts';
 import QueryProvider from "@/lib/providers/QueryProvider";
 
 export const metadata = {
