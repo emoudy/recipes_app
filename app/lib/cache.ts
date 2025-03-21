@@ -1,4 +1,4 @@
-const recipeIdCache = { recipeIds: null as number[] | null }; // Single cache store
+const recipeIdCache = { recipeIds: [] as number[] }; // Single cache store
 
 export function getCachedRecipeIds() {
   return recipeIdCache.recipeIds;
@@ -20,6 +20,6 @@ export function removeCachedRecipeIds(recipeIdsToRemove: number[]) {
 }
 
 export function clearCachedRecipeIds() {
-  recipeIdCache.recipeIds = null;
+  recipeIdCache.recipeIds = [];
 }
 
