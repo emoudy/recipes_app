@@ -1,9 +1,18 @@
 const ChatService = {
-  /** Fetches all chat sessions for a user without details */
+  /** Fetches all chat sessions for a user */
   fetchChatSessions: async () => {
-    const res = await fetch(`/api/chat-sessions`);
-    if (!res.ok) throw new Error("Failed to fetch chat sessions");
-    return res.json();
+    console.log("ChatService");
+  
+    return fetch(`/api/chat-sessions`, { method: "GET", credentials: "include" })
+      .then(res => res.json())
+      .then(data => {
+        console.log("✅ Chat Sessions:", Array.isArray(data) ? data : []);
+        return Array.isArray(data) ? data : []; // ✅ Ensure an array is returned
+      })
+      .catch(error => {
+        console.error("❌ Fetch error:", error);
+        return []; // ✅ Always return an array, never `undefined`
+      });
   },
   /** Fetches a chat sessions with all details */
   fetchChatSession: async(chatSessionId: number) => {
@@ -39,7 +48,6 @@ const ChatService = {
     if (!res.ok) throw new Error("Failed to delete chat session");
     return res.json();
   },
-
 };
 
 export default ChatService;
