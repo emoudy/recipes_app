@@ -64,7 +64,7 @@ export async function GET(req: Request) {
     const hasNextPage = page * pageSize < totalRecipes;
 
     return NextResponse.json(
-      { recipes, total: totalRecipes, hasNextPage },
+      { recipes, totalRecipes, hasNextPage },
       { status: 200 }
     );
   } catch (error) {
