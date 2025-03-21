@@ -21,20 +21,20 @@ export interface MessageInterface {
 };
 
 export interface RecipeInterface {
-  id: number;
+  id?: number;
   name: string;
   category: string;
-  description: string;
+  description?: string;
   ingredients: {
-    id: number;
+    id?: number;
     name: string;
     quantity: number;
     unit: string;
   }[];
-  instructions: string[];
-  servings: number;
-  prep_time: number;
-  cook_time: number;
+  instructions?: string[];
+  servings?: number;
+  prep_time?: number;
+  cook_time?: number;
   created_at?: Date;
   updated_at?: Date;
   last_viewed?: Date;
@@ -42,6 +42,6 @@ export interface RecipeInterface {
 
 export interface RecipeApiResponseInterface {
   recipes: RecipeInterface[];
-  total: number;
+  totalRecipes: number;
   hasNextPage: boolean;
 }
