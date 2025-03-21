@@ -1,5 +1,7 @@
 import { SignupFormSchema } from '@/lib/variables/schemas';
 import { FormState } from '@/lib/variables/types';
+import { createSession, deleteSession } from '@/lib/session'
+import { redirect } from 'next/navigation';
 
 export async function signup(state: FormState, formData: FormData): Promise<FormState>  {
 
@@ -18,7 +20,7 @@ export async function signup(state: FormState, formData: FormData): Promise<Form
 
   // Create user
   try {
-    const res = await fetch("/api/users", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(validatedFields.data),
@@ -27,18 +29,22 @@ export async function signup(state: FormState, formData: FormData): Promise<Form
     const data = await res.json();
 
     if (!res.ok) {
-      const data = await res.json();
       return { errors: data.errors || "Failed to create account" };
     }
 
-    return { message: data.message, id: data.id };
+    // Create user session
+    await createSession(data.id)
+
+    // Redirect user
+    redirect('/profile')
 
   } catch (error) {
     console.error("Signup Error:", error);
     return { error: "Something went wrong during signup." };
   }
+}
 
-  // TODO:
-  // Create user session
-  // Redirect user
+export async function logout() {
+  deleteSession()
+  redirect('/login')
 }
