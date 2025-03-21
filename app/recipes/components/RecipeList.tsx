@@ -1,18 +1,22 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import clsx from "clsx";
 import { categories } from "@/lib/variables/variables";
 import Link from "next/link";
 import { RecipeInterface } from "@/lib/variables/interfaces";
-import { useRecipes } from "@/recipes/hooks/useRecipes";
+import { useRecipes } from "@/recipes/hooks/useRecipeHooks";
 import ButtonStyled from "@/components/elements/ButtonStyled";
 
 
 export default function RecipeList() {
   const searchParams = useSearchParams();
+  const category = searchParams.get("category") || "";
+  const currentPage = Number(searchParams.get("page")) || 1;
+
 	const router = useRouter();
-  const { recipes, currentPage: page, error, isLoading } = useRecipes();
+  const { recipes, currentPage: page, error, isLoading } = useRecipes(category, currentPage);
 
   const [visitedRecipes, setVisitedRecipes] = useState<string[]>([]);
 

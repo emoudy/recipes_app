@@ -1,19 +1,31 @@
 "use client";
 import { RecipeInterface } from "@/lib/variables/interfaces";
 import { useState } from "react";
-import { useRecipes } from "../hooks/useRecipes";
+import { useRecipes } from "../hooks/useRecipeHooks";
 import RecipeService from "@/recipes/lib/recipeService";
+import { useSearchParams } from "next/navigation";
 
 export default function RecipeMenu() {
-  const { recipes, mutate } = useRecipes();
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category") || "";
+  const currentPage = Number(searchParams.get("page")) || 1;
+  // recipes: data.recipes,
+  // totalRecipes: data.totalRecipes,
+  // hasNextPage: data.hasNextPage,
+  // fetchNextPage: refetch,
+  // currentPage: page,
+  // error,
+  // isError: isError,
+  // isLoading,
+  // category,
+  const { recipes, refetch } = useRecipes(category, currentPage);
 
   const [selectedRecipes, setSelectedRecipes] = useState<number[]>([]);
   const [selectAll, setSelectAll] = useState(false);
 
   const handleSelectAll = () => {
-    const newSelectAll = !selectAll;
-    setSelectAll(newSelectAll);
-    setSelectedRecipes(newSelectAll ? recipes.map(((recipe: RecipeInterface) => recipe.id)) : []);
+    setSelectAll(!selectAll);
+    setSelectedRecipes(!selectAll ? recipes?.map((recipe: RecipeInterface) => recipe.id).filter((id): id is number => id !== undefined) || [] : []);
   };
   
 
@@ -30,10 +42,10 @@ export default function RecipeMenu() {
     await RecipeService.deleteRecipes(selectedRecipes);
 
     // ✅ Optimistically update the UI after deletion
-    mutate(
-      recipes.filter((recipe: RecipeInterface) => !selectedRecipes.includes(recipe.id)), 
-      false
-    );
+    // mutate(
+    //   recipes.filter((recipe: RecipeInterface) => !selectedRecipes.includes(recipe.id)), 
+    //   false
+    // );
 
       // Reset selection state
       setSelectedRecipes([]);
@@ -55,7 +67,7 @@ export default function RecipeMenu() {
             type="checkbox"
             checked={selectAll}
             onChange={handleSelectAll}
-            disabled={!recipes.length} // Disable if no recipes exist
+            disabled={!recipes?.length} // Disable if no recipes exist
           />
           Select All
         </label>

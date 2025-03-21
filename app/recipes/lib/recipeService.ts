@@ -15,7 +15,19 @@ const RecipeService = {
     return data;
   },
   
-	saveRecipe: async (recipeData: RecipeInterface ) => {
+  createRecipe: async (recipeData: RecipeInterface ) => {
+    const res = await fetch("/api/recipes", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(recipeData),
+    });
+    if (!res.ok) throw new Error("Failed to save recipe");
+    const { data } = await res.json(); 
+    return data;
+  },
+  
+	updateRecipe: async (recipeData: RecipeInterface ) => {
     const res = await fetch("/api/recipes", {
       method: "POST",
       credentials: "include",
