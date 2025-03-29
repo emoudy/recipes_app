@@ -1,13 +1,19 @@
 import { RecipeInterface } from "@/lib/variables/interfaces";
 
 const RecipeService = {
+  /** Fetches ALL recipes */
 	fetchRecipes: async () => {
     const res = await fetch(`/api/recipes`, { method: "GET", credentials: "include" });
     if (!res.ok) throw new Error("Failed to fetch recipes");
-    const { data } = await res.json(); 
-    return data;
+    const { data } = await res.json();
+    return {
+      recipes: data.recipes,
+      totalRecipes: data.total,
+      hasNextPage: data.hasNextPage,
+    };
   },
 
+  /** Fetches one recipe */
 	fetchRecipe: async ( id: number) => {
     const res = await fetch(`/api/recipes/${id}`, { method: "GET", credentials: "include", });
     if (!res.ok) throw new Error("Failed to fetch recipe");
