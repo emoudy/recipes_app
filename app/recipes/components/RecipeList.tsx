@@ -7,7 +7,7 @@ import { categories } from "@/lib/variables/variables";
 import Link from "next/link";
 import { RecipeInterface } from "@/lib/variables/interfaces";
 import { useRecipes } from "@/recipes/hooks/useRecipeHooks";
-import ButtonStyled from "@/components/elements/ButtonStyled";
+import ButtonStyled from "@/ui/elements/ButtonStyled";
 
 
 export default function RecipeList() {
