@@ -1,7 +1,7 @@
-import '@/lib/ui/styles/main.scss';
-import Footer from '@/components/Footer';
+import '@/lib/styles/main.scss';
 import { inter } from '@/lib/styles/utils/fonts';
 import QueryProvider from "@/lib/providers/QueryProvider";
+import Footer from './ui/Footer';
 
 export const metadata = {
   title: 'Recipe AI Chat',
@@ -16,8 +16,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body className="antialiased theme-light dark:theme-dark">
           <div className="flex flex-col min-h-screen">
             <main className="flex-1">{children}</main>
-            <Footer />
           </div>
+          <Footer />
         </body>
       </QueryProvider>
     </html>
