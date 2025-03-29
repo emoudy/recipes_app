@@ -36,7 +36,7 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // ✅ Find user by email in the database
+        // Find user by email in the database
         const user = await db.user.findUnique({
           where: { email: credentials.email },
         });
@@ -45,13 +45,13 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // ✅ Check if password is correct
+        // Check if password is correct
         const isValid = await verifyPassword(credentials.password, user.password);
         if (!isValid) {
           return null;
         }
 
-        // ✅ Convert `id` to a string because NextAuth requires `id` to be a string
+        // Converting `id` to a string because NextAuth requires `id` to be a string
         return { id: String(user.id), name: user.name, email: user.email };
       },
     }),
