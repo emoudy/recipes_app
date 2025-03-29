@@ -4,7 +4,7 @@ import {
   UserGroupIcon,
   DocumentDuplicateIcon,
 } from '@heroicons/react/24/outline';
-import LinkStyled from './components/elements/LinkStyled';
+import LinkStyled from './ui/elements/LinkStyled';
 
 const links = [
   {
@@ -20,6 +20,7 @@ const links = [
 ];
 
 export default function MainPage() {
+  
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">

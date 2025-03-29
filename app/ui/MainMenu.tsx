@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import DarkModeToggle from "./DarkModeToggle";
+import DarkModeToggle from "./elements/DarkModeToggle";
 
 export default function MainMenu() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
