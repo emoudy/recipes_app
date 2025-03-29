@@ -1,8 +1,6 @@
 const ChatService = {
-  /** Fetches all chat sessions for a user */
-  fetchChatSessions: async () => {
-    console.log("ChatService");
-  
+  /** Fetches ALL chat sessions */
+  fetchChatSessions: async () => {  
     return fetch(`/api/chat-sessions`, { method: "GET", credentials: "include" })
       .then(res => res.json())
       .then(data => {
@@ -14,7 +12,7 @@ const ChatService = {
         return []; // ✅ Always return an array, never `undefined`
       });
   },
-  /** Fetches a chat sessions with all details */
+  /** Fetches ONE chat session */
   fetchChatSession: async(chatSessionId: number) => {
     const res = await fetch(`/api/chat-sessions?id=${chatSessionId}`);
     if (!res.ok) throw new Error("Failed to fetch the chat session");
@@ -23,6 +21,7 @@ const ChatService = {
   createChatSession: async (sessionName: string) => {
     const res = await fetch(`/api/chat-sessions`, {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: sessionName }),
     });
