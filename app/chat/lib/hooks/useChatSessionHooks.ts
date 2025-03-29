@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import ChatService from "../lib/chatService";
+import ChatService from "../actions/chatService";
 
 export function useChatSessions() {
   return useQuery({
@@ -13,13 +13,7 @@ export function useCreateChatSession() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (name: string) => {
-      const res = await fetch("/api/chat-sessions", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name }),
-      });
-      if (!res.ok) throw new Error("Failed to create chat session");
+      const res = await ChatService.createChatSession(name);
       return res.json();
     },
     onSuccess: () => {
@@ -32,11 +26,8 @@ export function useDeleteChatSession() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: number) => {
-      const res = await fetch(`/api/chat-sessions/${id}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
-      if (!res.ok) throw new Error("Failed to delete chat session");
+      ChatService.deleteChatSession(id);
+      return "ok"
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["chat-sessions"] });
