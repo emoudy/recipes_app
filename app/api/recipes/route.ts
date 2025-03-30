@@ -20,8 +20,7 @@ export async function GET(req: Request) {
 
     // Check shared cache before fetching from DB
     let recipeIds = getCachedRecipeIds();
-
-
+    
     if (!recipeIds) {
       const userRecipes = await db.userRecipe.findMany({
         where: { user_id: userId },
@@ -63,13 +62,17 @@ export async function GET(req: Request) {
     // Calculate if there is a next page
     const hasNextPage = page * pageSize < totalRecipes;
 
-    return NextResponse.json(
-      { recipes, totalRecipes, hasNextPage },
-      { status: 200 }
-    );
+    return NextResponse.json({
+      data: {
+        recipes,
+        totalRecipes,
+        hasNextPage,
+      },
+      status: 200
+    });
   } catch (error) {
     console.error("Error fetching recipes:", error);
-    return NextResponse.json({ error: "Error fetching recipes" }, { status: 500 });
+    return NextResponse.json({ error: "Error fetching recipes", message: "" }, { status: 500 });
   }
 }
 
