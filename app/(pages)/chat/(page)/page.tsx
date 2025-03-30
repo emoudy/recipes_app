@@ -1,4 +1,4 @@
-import ChatDisplay from "@/chat/components/ChatDisplay";
+import ChatDisplay from "@/(pages)/chat/components/ChatDisplay";
 
 export default function ChatPage() {
   return (

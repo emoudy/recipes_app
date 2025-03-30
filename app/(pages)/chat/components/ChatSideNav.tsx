@@ -1,6 +1,6 @@
 "use client";
 
-import { useChatSessions, useCreateChatSession, useDeleteChatSession } from "@/chat/lib/hooks/useChatSessionHooks";
+import { useChatSessions, useCreateChatSession, useDeleteChatSession } from "@/(pages)/chat/lib/hooks/useChatSessionHooks";
 import { useChatSessionStore } from "@/lib/store/useChatSessionStore";
 import { ChatSessionInterface } from "@/lib/variables/interfaces";
 import { Suspense } from "react";
