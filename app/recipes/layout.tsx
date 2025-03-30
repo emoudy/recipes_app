@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/ui/Header";
 import { ReactNode } from "react";
 
 export default function RecipesLayout({ children }: { children: ReactNode }) {
