@@ -13,8 +13,8 @@ export interface ChatSessionInterface {
 };
 
 export interface MessageInterface {
-  id: number;
-  chatSessionId: number;
+  id?: number;
+  chatSessionId?: number;
   userQuery: string;
   aiResponse: string;
   timestamp?: Date; // ISO 8601 date-time string
