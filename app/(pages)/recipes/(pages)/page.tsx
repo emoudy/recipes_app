@@ -1,5 +1,5 @@
-import RecipeMenu from "./components/RecipeMenu";
-import RecipeList from "./components/RecipeList";
+import RecipeMenu from "../components/RecipeMenu";
+import RecipeList from "../components/RecipeList";
 
 export default function RecipesPage() {
   return (

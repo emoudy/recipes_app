@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
-import { auth } from "../../../auth";
-import { Session } from "next-auth";
+import getServerSession, { Session } from 'next-auth';
+// import GitHub from "@auth/core/providers/github"
 import { UserInterface } from "../variables/interfaces";
+import { authOptions } from "@/auth";
 
 declare module "next-auth" {
   interface Session {
@@ -20,7 +21,9 @@ export async function verifyPassword(password: string, hashedPassword: string): 
 }
 
 export async function getValidatedSession(): Promise<Session> {
-  const session: Session | null = await auth();
+  // const session: Session | null = await NextAuth();
+  const session = await getServerSession(authOptions);
+  console.log("getValidatedSession session", session);
 
   if (!session || !session.user?.id) {
     console.log("Not Working")

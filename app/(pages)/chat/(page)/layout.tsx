@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import Header from '@/ui/Header';
 import ChatSideNav from '../components/ChatSideNav';
+import Header from "@/app/ui/Header";
  
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isSideNavOpen, setIsSideNavOpen] = useState<boolean>(true);

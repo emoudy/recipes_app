@@ -3,13 +3,18 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { links } from '@/lib/variables/links';
+import LinkStyled from "./elements/LinkStyled";
 // import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 // import clsx from "clsx";
 
 export default function Header() {
   const pathname = usePathname();
+  const [displayLinks, setDisplayLinks] = useState(links);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const filteredLinks = links.filter((link) => link.href !== pathname);
 
   // const toggleTheme = () => {
   //   setIsDarkMode((prev) => !prev);
@@ -20,12 +25,17 @@ export default function Header() {
     <header className="header flex justify-between items-center px-5 py-3 border-b-2 border-[var(--border-light)] bg-[var(--background-light)] text-[var(--foreground-light)] dark:bg-[var(--background-dark)] dark:text-[var(--foreground-dark)] dark:border-[var(--border-dark)]">
       {/* Navigation Button */}
       <nav className="header-nav flex gap-4">
-        <Link href={"/"} className="nav-button">
-          Home
-        </Link>
-        <Link href={pathname === "/chat" ? "/recipes" : "/chat"} className="nav-button">
-          {pathname === "/chat" ? "Recipes" : "Chat"}
-        </Link>
+        {filteredLinks.map((link) => {
+          return (
+            <LinkStyled
+              key={link.name}
+              type="primary"
+              href={link.href}
+              title={link.name}
+              icon={<link.icon className="w-6 h-6" />}
+            />
+          );
+        })}
       </nav>
 
       {/* Right Side Icons */}

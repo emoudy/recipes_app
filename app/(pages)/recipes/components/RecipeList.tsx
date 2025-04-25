@@ -6,9 +6,8 @@ import clsx from "clsx";
 import { categories } from "@/lib/variables/variables";
 import Link from "next/link";
 import { RecipeInterface } from "@/lib/variables/interfaces";
-import { useRecipes } from "@/recipes/hooks/useRecipeHooks";
-import ButtonStyled from "@/ui/elements/ButtonStyled";
-
+import { useRecipes } from "../lib/hooks/useRecipeHooks";
+import ButtonStyled from "@/app/ui/elements/ButtonStyled";
 
 export default function RecipeList() {
   const searchParams = useSearchParams();

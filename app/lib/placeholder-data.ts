@@ -1,5 +1,5 @@
 // USERS TABLE
-const users = [
+const user = [
   {
     id: 92301928,
     name: "Alice",
@@ -150,4 +150,4 @@ const messages = [
   }
 ];
 
-export { users, recipes, userRecipes, chatSessions, messages };
+export { user, recipes, userRecipes, chatSessions, messages };

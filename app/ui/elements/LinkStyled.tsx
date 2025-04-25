@@ -17,7 +17,7 @@ export default function LinkStyled({
   title = "",
   role = "",
   disabled = false,
-  icon = ""
+  icon = "",
 }: LinkStyledProps) {
   // const pathname = usePathname();
   const linkStyles = {

@@ -1,9 +1,9 @@
 "use client";
 import { RecipeInterface } from "@/lib/variables/interfaces";
 import { useState } from "react";
-import { useRecipes } from "../hooks/useRecipeHooks";
-import RecipeService from "@/recipes/lib/recipeService";
+import { useRecipes } from "../lib/hooks/useRecipeHooks";
 import { useSearchParams } from "next/navigation";
+import RecipeService from "../lib/recipeService";
 
 export default function RecipeMenu() {
   const searchParams = useSearchParams();

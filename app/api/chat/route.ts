@@ -4,8 +4,10 @@ import { getValidatedSession } from "@/lib/auth/authFunctions";
 
 export async function GET(req: NextRequest) {
   try {
+    console.log("GET session1");
     const session = await getValidatedSession();
-    
+    console.log("GET session", session);
+
     // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
     if (session instanceof NextResponse) return session;
     
@@ -25,9 +27,14 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    console.log("POST session1");
     const session = await getValidatedSession();
+    console.log("POST session", session);
     // If there is no session, getValidatedSession(req) returns a NextResponse with a 401 error
-    if (session instanceof NextResponse) return session;
+    if (session instanceof NextResponse) {
+      console.log("No session found");
+      return session;
+    }
 
     const userId = session.user.id;
     const { chatSessionName } = await req.json();
@@ -37,6 +44,7 @@ export async function POST(req: NextRequest) {
     const newChatSession = await db.chatSession.create({
       data: { user_id: userId, name: chatSessionName },
     });
+    console.log("newChatSession", newChatSession);
 
     return NextResponse.json(newChatSession, { status: 201 });
   } catch (error) {

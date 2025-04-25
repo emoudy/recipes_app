@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { MessageInterface } from "@/lib/variables/interfaces";
 import ChatInput from "./ChatInput";
-import ButtonStyled from "@/ui/elements/ButtonStyled";
+import ButtonStyled from "@/app/ui/elements/ButtonStyled";
 import { useClaudeRecipe } from "../lib/hooks/useClaudeRecipe";
 import { useCreateChatSession } from "../lib/hooks/useChatSessionHooks";
 import { useChatSessionStore } from "@/lib/store/useChatSessionStore";

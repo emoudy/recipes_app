@@ -1,33 +1,15 @@
 'use client';
 
-import {
-  UserGroupIcon,
-  DocumentDuplicateIcon,
-} from '@heroicons/react/24/outline';
-import LinkStyled from './ui/elements/LinkStyled';
+import { links } from '@/lib/variables/links';
+import LinkStyled from '@/app/ui/elements/LinkStyled';
 
-const links = [
-  {
-    name: 'Chat',
-    href: '/chat',
-    icon: UserGroupIcon,
-  },
-  {
-    name: 'Recipes',
-    href: '/recipes',
-    icon: DocumentDuplicateIcon,
-  },
-];
-
-export default function MainPage() {
-  
-
+export default function App() {
+  const filteredLinks = links.filter((link) => link.name !== 'Home');
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-3xl font-bold mb-6">Welcome to the Recipe Hub! 🍽️</h1>
-      <p className="text-lg mb-4">What would you like to do?</p>
       <div className="flex flex-col gap-4">
-        {links.map((link) => {
+        {filteredLinks.map((link) => {
           return (
             <LinkStyled
               key={link.name}

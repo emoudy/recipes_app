@@ -1,98 +1,62 @@
-import NextAuth, { NextAuthOptions, Session } from "next-auth";
+import { type User, type Session, type SessionStrategy } from "next-auth";
 import { JWT } from "next-auth/jwt";
-import Google from "next-auth/providers/google";
-import GitHub from "next-auth/providers/github";
-import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { verifyPassword } from "@/lib/auth/authFunctions";
 import { db } from "./app/lib/db/db";
+import { authConfig } from "./auth.config";
 
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   adapter: PrismaAdapter(db),
-  providers: [
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-    GitHub({
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-    }),
-    Credentials({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
-        }
-
-        // Find user by email in the database
-        const user = await db.user.findUnique({
-          where: { email: credentials.email },
-        });
-
-        if (!user) {
-          return null;
-        }
-
-        // Check if password is correct
-        const isValid = await verifyPassword(credentials.password, user.password);
-        if (!isValid) {
-          return null;
-        }
-
-        // Converting `id` to a string because NextAuth requires `id` to be a string
-        return { id: String(user.id), name: user.name, email: user.email };
-      },
-    }),
-  ],
+  pages: {
+    login: '/auth/login',
+    logout: '/auth/logout',
+    reset: '/auth/reset',
+    error: '/auth/error', // Error code passed in query string as ?error=
+    verifyRequest: '/auth/verify-request', // (used for check email message)
+    signUp: '/auth/signup' // New users will be directed here on first sign in (leave the property out if not of interest)
+  },
   session: {
-    strategy: "jwt" as const,
+    strategy: "jwt" as SessionStrategy,
   },
   callbacks: {
-    async jwt({ token, user }: { token: JWT, user: User }) {
-      if (user) {
-        token.id = user.id; // ✅ Store user ID in JWT
+    async signIn({ user, email }: { user: User; email?: { verificationRequest?: boolean } }) {
+      const isAllowedToSignIn = true;
+      if (isAllowedToSignIn) {
+        return true;
+      } else {
+        // Return false to display a default error message
+        return false;
+        // Or you can return a URL to redirect to:
+        // return '/unauthorized';
       }
-      return token;
     },
-    async session({ session, token }: { session: Session, token: JWT }) {
-      if (!session.user) {
-        session.user = {} as any; // ✅ Ensure `session.user` exists
-      }
+    async session({ session, user, token }: { session: Session; user: User; token: JWT }) {
+      if (!session.user) session.user = {} as any; // ✅ Ensure `session.user` exists
       if (token?.id) {
         session.user.id = token.id as number; // ✅ Attach user ID to session
       }
       return session;
     },
-  },
-  secret: process.env.NEXTAUTH_SECRET, // Required for NextAuth.js
-  pages: {
-    signIn: "/login", // Redirect users to custom login page
-  },
-  cookies: {
-    sessionToken: {
-      name: "recipe-next-auth.session-token", // ✅ Unique cookie name
-      options: {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production" ? true : false, 
-        path: "/",
-        sameSite: "lax",
-      },
+    async jwt({ token, user, profile, isNewUser }: { token: JWT; user: User; profile: any; isNewUser: boolean }) {
+      if (user && user.id) {
+        token.id = user.id; // ✅ Store user ID in JWT
+      }
+      return token
     },
-  }, 
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url
+      return baseUrl
+    },
+  },
+  // events: {
+  //   async login(message) { /* on successful sign in */ },
+  //   async logout(message) { /* on signout */ },
+  //   async createUser(message) { /* user created */ },
+  //   async updateUser(message) { /* user updated - e.g. their email was verified */ },
+  //   async session(message) { /* session is active */ },
+  // }
+  // secret: process.env.NEXTAUTH_SECRET, // Required for NextAuth.js s
+  ...authConfig,
 };
-
-export const { handlers, signIn, signOut, auth } = NextAuth(authOptions);
-
-export { auth as middleware };

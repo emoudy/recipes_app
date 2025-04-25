@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,12 +24,34 @@
       }
     ],
     "paths": {
-      "@/*": ["./app/*"],
-      "@/lib/*": ["./app/lib/*"],
-      "@/prisma/*": ["./prisma/*"],
-      "@/auth/*": ["./auth"],
-    }
+      "@/*": [
+        "./*"
+      ],
+      "@/lib/*": [
+        "./app/lib/*"
+      ],
+      "@/prisma/*": [
+        "./prisma/*"
+      ],
+      "auth": [
+        "./auth"
+      ]
+    },
+    "typeRoots": [
+      "./types",
+      "./node_modules/@types"
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(auth)/api/auth/[...nextauth].ts", "next.config.mjs"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/api/auth/[...nextauth].ts",
+    "next.config.mjs",
+    "types/next-auth.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import ChatService from "../actions/chatService";
+import ChatService from "../chatService";
 
 export function useChatSessions() {
   return useQuery({

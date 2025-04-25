@@ -1,13 +1,17 @@
-import { cookies } from "next/headers";
+import { auth } from "../../../../auth";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const cookieStore = await cookies();
-  const sessionCookie = cookieStore.get("recipe-next-auth.session-token");
+  const session = await auth();
 
-  if (!sessionCookie) {
-    return NextResponse.json({ error: "Unauthorized - Missing session cookie" }, { status: 401 });
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized - No valid session" }, { status: 401 });
   }
 
-  return NextResponse.json({ message: "Session found", cookie: sessionCookie });
+  return NextResponse.json({ message: "Session found",
+    user: {
+      id: session.user.id,
+      email: session.user.email,
+    },
+  });
 }

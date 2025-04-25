@@ -1,8 +1,8 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import RecipeService from "@/recipes/lib/recipeService";
 import { RecipeApiResponseInterface, RecipeInterface } from "@/lib/variables/interfaces";
+import RecipeService from "../recipeService";
 
 export function useRecipes(category: string, page: number) {
   const { data, error, isError, isLoading, refetch} = useQuery<RecipeApiResponseInterface>({
